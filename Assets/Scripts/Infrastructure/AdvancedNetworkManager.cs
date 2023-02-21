@@ -74,9 +74,16 @@ namespace JoyWay.Infrastructure
         
         private void SpawnCharacter(NetworkConnectionToClient player)
         {
-            //TODO: make random spawn points
-            Transform spawnPoint = _levelSpawnPoints.GetSpawnPoints().First();
+            Transform spawnPoint = GetRandomSpawnPoint();
             _characterFactory.CreateCharacter(spawnPoint, player);
+        }
+
+        private Transform GetRandomSpawnPoint()
+        {
+            if (_levelSpawnPoints == null)
+                _levelSpawnPoints = FindObjectOfType<LevelSpawnPoints>();
+
+            return _levelSpawnPoints.GetRandomSpawnPoint();
         }
     }
 }

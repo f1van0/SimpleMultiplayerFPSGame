@@ -11,5 +11,12 @@ namespace JoyWay.Game
         {
             return spawnPoints;
         }
+
+        public Transform GetRandomSpawnPoint()
+        {
+            int index = Random.Range(0, spawnPoints.Length);
+
+            return spawnPoints[index];
+        }
     }
 }
