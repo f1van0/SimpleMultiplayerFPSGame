@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace DefaultNamespace
+namespace JoyWay.Resources
 {
     public class LazyResource<T> where T : Object
     {
@@ -22,7 +22,7 @@ namespace DefaultNamespace
                     {
                         if (_value == null)
                         {
-                            _value = Resources.Load<T>(_path);
+                            _value = UnityEngine.Resources.Load<T>(_path);
                         }
                     }
                 }
