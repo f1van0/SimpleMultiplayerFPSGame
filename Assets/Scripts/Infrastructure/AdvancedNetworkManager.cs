@@ -1,39 +1,81 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using DefaultNamespace;
+using System.Linq;
+using Events.Game;
+using JoyWay.Game.Character;
+using JoyWay.Infrastructure.Factories;
+using JoyWay.Services;
+using MessagePipe;
 using Mirror;
+using Mirror.SimpleWeb;
 using UnityEngine;
+using Zenject;
 
-public class AdvancedNetworkManager : NetworkManager
+namespace JoyWay.Infrastructure
 {
-    public event Action Connected;
-    public event Action Disconnected;
-    
-    public override void OnStartClient()
+    public class AdvancedNetworkManager : NetworkManager
     {
-        Connected?.Invoke();
-    }
-
-    public override void OnStopClient()
-    {
-        Disconnected?.Invoke();
-    }
-
-    public override void OnClientConnect()
-    {
-        //NetworkServer.Spawn(AssetContainer.Character, );
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
+        public static new AdvancedNetworkManager singleton { get; private set; }
         
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
+        public event Action Connected;
+        public event Action Disconnected;
         
+        private LevelSpawnPoints _levelSpawnPoints;
+        private CharacterFactory _characterFactory;
+        private IPublisher<CharacterSpawnedEvent> _publisher;
+        private ISubscriber<CharacterSpawnedEvent> _subscriber;
+
+        public void Initialize(
+            CharacterFactory characterFactory,
+            IPublisher<CharacterSpawnedEvent> characterSpawnedPublisher,
+            ISubscriber<CharacterSpawnedEvent> characterSpawnedSubscriber)
+        {
+            _characterFactory = characterFactory;
+            _publisher = characterSpawnedPublisher;
+            _subscriber = characterSpawnedSubscriber;
+            _levelSpawnPoints = FindObjectOfType<LevelSpawnPoints>();
+        }
+        
+        public override void Awake()
+        {
+            base.Awake();
+            singleton = this;
+        }
+
+        public override void OnServerConnect(NetworkConnectionToClient conn)
+        {
+            SpawnCharacter(conn);
+        }
+
+        public override void OnStartClient()
+        {
+            Connected?.Invoke();
+        }
+
+        public override void OnStopClient()
+        {
+            Disconnected?.Invoke();
+        }
+
+        public override void OnStartHost()
+        {
+            Connected?.Invoke();
+        }
+
+        public override void OnStopHost()
+        {
+            Disconnected?.Invoke();
+        }
+
+        public void NotifyCharacterWasSpawned(CharacterContainer characterContainer)
+        {
+            _publisher.Publish(new CharacterSpawnedEvent(characterContainer));
+        }
+        
+        private void SpawnCharacter(NetworkConnectionToClient player)
+        {
+            //TODO: make random spawn points
+            Transform spawnPoint = _levelSpawnPoints.GetSpawnPoints().First();
+            _characterFactory.CreateCharacter(spawnPoint, player);
+        }
     }
 }
