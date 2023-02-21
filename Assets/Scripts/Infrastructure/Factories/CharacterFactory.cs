@@ -12,26 +12,19 @@ namespace JoyWay.Infrastructure.Factories
 {
     public class CharacterFactory
     {
-        private PlayerInputs _playerInputs;
-        private CameraService _cameraService;
+        private DiContainer _diContainer;
+        private ISubscriber<CharacterSpawnedEvent> _subscriber;
         private AssetContainer _assetContainer;
 
-        private ISubscriber<CharacterSpawnedEvent> _subscriber;
-        private ProjectileFactory _projectileFactory;
-
         public CharacterFactory(
-            PlayerInputs playerInputs,
-            CameraService cameraService,
-            AssetContainer assetContainer, 
-            ISubscriber<CharacterSpawnedEvent> subscriber,
-            ProjectileFactory projectileFactory)
+            AssetContainer assetContainer,
+            DiContainer diContainer,
+            ISubscriber<CharacterSpawnedEvent> subscriber)
         {
-            _playerInputs = playerInputs;
-            _cameraService = cameraService;
             _assetContainer = assetContainer;
+            _diContainer = diContainer;
             _subscriber = subscriber;
             _subscriber.Subscribe(x => InitializeSpawnedCharacter(x.CharacterContainer));
-            _projectileFactory = projectileFactory;
         }
 
         public CharacterContainer CreateCharacter(Transform at, NetworkConnectionToClient player)
@@ -43,7 +36,7 @@ namespace JoyWay.Infrastructure.Factories
 
         private void InitializeSpawnedCharacter(CharacterContainer characterContainer)
         {
-            characterContainer.Initialize(_playerInputs, _cameraService, _projectileFactory);
+            _diContainer.Inject(characterContainer);
         }
     }
 }

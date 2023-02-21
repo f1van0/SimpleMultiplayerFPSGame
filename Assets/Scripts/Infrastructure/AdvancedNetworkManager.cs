@@ -23,17 +23,14 @@ namespace JoyWay.Infrastructure
         private LevelSpawnPoints _levelSpawnPoints;
         private CharacterFactory _characterFactory;
         private IPublisher<CharacterSpawnedEvent> _publisher;
-        private ISubscriber<CharacterSpawnedEvent> _subscriber;
 
-        public void Initialize(
+        [Inject]
+        public void Construct(
             CharacterFactory characterFactory,
-            IPublisher<CharacterSpawnedEvent> characterSpawnedPublisher,
-            ISubscriber<CharacterSpawnedEvent> characterSpawnedSubscriber)
+            IPublisher<CharacterSpawnedEvent> characterSpawnedPublisher)
         {
             _characterFactory = characterFactory;
             _publisher = characterSpawnedPublisher;
-            _subscriber = characterSpawnedSubscriber;
-            _levelSpawnPoints = FindObjectOfType<LevelSpawnPoints>();
         }
         
         public override void Awake()

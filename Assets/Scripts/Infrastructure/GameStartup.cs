@@ -39,7 +39,6 @@ namespace JoyWay.Infrastructure
 
         private void SceneLoaded()
         {
-            _networkManager.Initialize(_characterFactory, _publisher, _subscriber);
             _networkManager.StartHost();
         }
     }

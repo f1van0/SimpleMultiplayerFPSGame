@@ -15,12 +15,17 @@ namespace JoyWay.Game.Character
         [SerializeField] private CharacterInteractionController _interactionController;
         [SerializeField] private CharacterLookController _lookController;
         [SerializeField] private CharacterView _view;
+        
+        private PlayerInputs _playerInputs;
 
-        public void Initialize(
+        [Inject]
+        public void Construct(
             PlayerInputs playerInputs,
             CameraService cameraService,
             ProjectileFactory projectileFactory)
         {
+            _playerInputs = playerInputs;
+            _playerInputs.Enable();
             //if (isServer)
             //{
                 _characterHealth.Initialize();
@@ -41,6 +46,11 @@ namespace JoyWay.Game.Character
         private void Start()
         {
             AdvancedNetworkManager.singleton.NotifyCharacterWasSpawned(this);
+        }
+
+        private void OnDestroy()
+        {
+            _playerInputs.Disable();
         }
     }
 }
