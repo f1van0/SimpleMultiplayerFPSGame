@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Events.Game;
+using JoyWay.Game;
 using JoyWay.Game.Character;
 using JoyWay.Infrastructure.Factories;
 using JoyWay.Services;
