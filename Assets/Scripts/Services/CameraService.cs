@@ -1,6 +1,5 @@
 ﻿using System;
 using Cinemachine;
-using Game;
 using UnityEngine;
 
 namespace JoyWay.Services
