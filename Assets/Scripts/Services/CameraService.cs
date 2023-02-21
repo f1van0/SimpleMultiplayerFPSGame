@@ -1,22 +1,16 @@
 ﻿using System;
 using Cinemachine;
 using UnityEngine;
+using Zenject;
 
 namespace JoyWay.Services
 {
     public class CameraService : MonoBehaviour
     {
-        [SerializeField]
-        private CinemachineVirtualCamera _fpsCamera;
-
-        private Camera _camera;
+        [SerializeField] private CinemachineVirtualCamera _fpsCamera;
+        [SerializeField] private Camera _camera;
 
         public Action<Vector3> LookDirectionUpdated;
-
-        public void Initialize()
-        {
-            _camera = Camera.main;
-        }
 
         public void SetFollowTarget(Transform targetTransform)
         {

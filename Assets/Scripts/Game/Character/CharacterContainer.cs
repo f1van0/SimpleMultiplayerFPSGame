@@ -1,7 +1,9 @@
-﻿using JoyWay.Infrastructure;
+﻿using System;
+using JoyWay.Infrastructure;
 using JoyWay.Infrastructure.Factories;
 using JoyWay.Services;
 using UnityEngine;
+using Zenject;
 
 namespace JoyWay.Game.Character
 {
@@ -13,7 +15,6 @@ namespace JoyWay.Game.Character
         [SerializeField] private CharacterInteractionController _interactionController;
         [SerializeField] private CharacterLookController _lookController;
         [SerializeField] private CharacterView _view;
-        [SerializeField] private Transform _eyesTransform;
 
         public void Initialize(
             PlayerInputs playerInputs,

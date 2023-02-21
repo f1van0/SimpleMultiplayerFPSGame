@@ -8,6 +8,8 @@ namespace JoyWay.Game.Character
     public class CharacterLookController : NetworkBehaviour
     {
         public Action<Vector3> LookDirectionChanged;
+
+        [SerializeField] private Transform _eyes;
         
         [SyncVar(hook = nameof(SetLookDirection))]
         private Vector3 _lookDirection;
@@ -23,7 +25,7 @@ namespace JoyWay.Game.Character
                 return;
 
             _cameraService = cameraService;
-            _cameraService.SetFollowTarget(transform);
+            _cameraService.SetFollowTarget(_eyes);
             _cameraService.LookDirectionUpdated += UpdateLookDirection;
         }
 

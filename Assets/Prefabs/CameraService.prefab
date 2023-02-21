@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _fpsCamera: {fileID: 9124152148319102837}
+  _camera: {fileID: 9124152147143466350}
 --- !u!1 &9124152147143466348
 GameObject:
   m_ObjectHideFlags: 0
