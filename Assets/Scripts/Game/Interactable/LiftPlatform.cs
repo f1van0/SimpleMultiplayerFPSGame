@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections;
+using Mirror;
 using UnityEngine;
 
 namespace JoyWay.Game
 {
-    public class LiftPlatform : MonoBehaviour, IInteractable
+    public class LiftPlatform : NetworkBehaviour, IInteractable
     {
         [SerializeField] private float _liftingTime;
         [SerializeField] private Transform _platform;
@@ -25,6 +26,7 @@ namespace JoyWay.Game
             _timeInterval = _liftingTime;
         }
 
+        [Server]
         public void Interact()
         {
             if (!_isLifting)
