@@ -10,18 +10,18 @@ namespace JoyWay.Game.Character
     {
         [SerializeField] private Transform _handEndTransform;
         
-        private PlayerInputs _playerInputs;
+        private InputService _inputService;
         private CharacterLookController _lookController;
         private ProjectileFactory _projectileFactory;
 
         private Vector3 _lookDirection;
 
-        public void Initialize(PlayerInputs playerInputs, CharacterLookController lookController, ProjectileFactory projectileFactory)
+        public void Initialize(InputService inputService, CharacterLookController lookController, ProjectileFactory projectileFactory)
         {
             if (isOwned)
             {
-                _playerInputs = playerInputs;
-                _playerInputs.Character.Fire.performed += Fire;
+                _inputService = inputService;
+                _inputService.Fire += Fire;
                 _lookController = lookController;
             }
 
@@ -31,7 +31,7 @@ namespace JoyWay.Game.Character
             }
         }
 
-        private void Fire(InputAction.CallbackContext obj)
+        private void Fire()
         {
             _lookDirection = _lookController.GetLookDirection();
             CmdFire(_handEndTransform.position, _lookDirection);
@@ -46,7 +46,7 @@ namespace JoyWay.Game.Character
         private void OnDestroy()
         {
             if (isOwned)
-                _playerInputs.Character.Fire.performed -= Fire;
+                _inputService.Fire -= Fire;
         }
     }
 }

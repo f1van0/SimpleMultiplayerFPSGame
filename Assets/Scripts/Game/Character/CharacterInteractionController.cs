@@ -11,22 +11,22 @@ namespace JoyWay.Game.Character
         [SerializeField] private Transform _handEndTransform;
         [SerializeField] private float _maxInteractionDistance;
         
-        private PlayerInputs _playerInputs;
+        private InputService _inputService;
         private CharacterLookController _lookController;
 
         private Stone _stone;
 
-        public void Initialize(PlayerInputs playerInputs, CharacterLookController lookController)
+        public void Initialize(InputService inputService, CharacterLookController lookController)
         {
             if (!isOwned)
                 return;
             
-            _playerInputs = playerInputs;
-            _playerInputs.Character.Interact.performed += Interact;
+            _inputService = inputService;
+            _inputService.Interact += Interact;
             _lookController = lookController;
         }
         
-        private void Interact(InputAction.CallbackContext callbackContext)
+        private void Interact()
         {
             Transform cameraTransform = _lookController.GetCameraTransform();
             CmdHandleInteraction(cameraTransform.position, cameraTransform.forward);
@@ -98,7 +98,7 @@ namespace JoyWay.Game.Character
         private void OnDestroy()
         {
             if (isOwned)
-                _playerInputs.Character.Interact.performed -= Interact;
+                _inputService.Interact -= Interact;
         }
     }
 }

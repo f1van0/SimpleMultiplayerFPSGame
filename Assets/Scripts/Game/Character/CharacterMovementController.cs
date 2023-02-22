@@ -17,43 +17,35 @@ namespace JoyWay.Game.Character
         [SerializeField] private float _airDrag;
         [SerializeField] private float _groundRaycastLength;
         
-        private PlayerInputs _playerInputs;
+        private InputService _inputService;
         private CharacterLookController _lookController;
 
         private Vector3 _moveDirection;
-        private Vector2 _inputDirection;
         private Transform _cameraTransform;
         private bool _isGrounded;
 
-        public void Initialize(PlayerInputs playerInputs, CharacterLookController lookController)
+        public void Initialize(InputService inputService, CharacterLookController lookController)
         {
             if (!isOwned)
                 return;
                 
-            _playerInputs = playerInputs;
-            _playerInputs.Character.Jump.performed += Jump;
+            _inputService = inputService;
+            _inputService.Move += Move;
+            _inputService.Jump += Jump;
             _lookController = lookController;
             _cameraTransform = _lookController.GetCameraTransform();
         }
         
-        private void Move()
+        [Client]
+        private void Move(Vector2 moveDirection)
         {
-            if (!isOwned)
-                return;
-            
-            _inputDirection = _playerInputs.Character.Move.ReadValue<Vector2>();
-            _moveDirection = InputDirectionToCameraLookDirection(_inputDirection);
+            _moveDirection = InputDirectionToCameraLookDirection(moveDirection);
             CmdPerformMove(_moveDirection);
         }
         
-        private void Jump(InputAction.CallbackContext obj)
+        private void Jump()
         {
             CmdPerformJump();
-        }
-
-        private void FixedUpdate()
-        {
-            Move();
         }
 
         [Command]
@@ -67,10 +59,6 @@ namespace JoyWay.Game.Character
         [Command]
         private void CmdPerformJump()
         {
-            //TODO: make this on server, but i think its made already beacuse of the command
-            if (isServer && !isLocalPlayer)
-                Debug.Log("calls remotely from client and runs on server");
-            
             if (CheckGrounded())
                 _rigidbody.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
         }
@@ -96,8 +84,8 @@ namespace JoyWay.Game.Character
         private Vector3 InputDirectionToCameraLookDirection(Vector2 inputDirection)
         {
             Vector3 calibrationVector =
-                _cameraTransform.right * _inputDirection.x + 
-                _cameraTransform.forward * _inputDirection.y;
+                _cameraTransform.right * inputDirection.x + 
+                _cameraTransform.forward * inputDirection.y;
             calibrationVector.y = 0;
             return calibrationVector.normalized;
         }
@@ -112,7 +100,10 @@ namespace JoyWay.Game.Character
         private void OnDestroy()
         {
             if (isLocalPlayer)
-                _playerInputs.Character.Jump.performed -= Jump;
+            {
+                _inputService.Move -= Move;
+                _inputService.Jump -= Jump;
+            }
         }
     }
 }

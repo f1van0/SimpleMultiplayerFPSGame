@@ -19,24 +19,17 @@ namespace JoyWay.Game.Character
 
         [Inject]
         public void Construct(
-            PlayerInputs playerInputs,
+            InputService inputService,
             CameraService cameraService,
             ProjectileFactory projectileFactory)
         {
-            //if (isServer)
-            //{
-                _characterHealth.Initialize();
-            //}
+            _characterHealth.Initialize();
             
-            //if (isLocalPlayer)
-            //{
-                _lookController.Initialize(cameraService);
-                _movementController.Initialize(playerInputs, _lookController);
-                _interactionController.Initialize(playerInputs, _lookController);
-            //}
+            _lookController.Initialize(cameraService);
+            _movementController.Initialize(inputService, _lookController);
+            _interactionController.Initialize(inputService, _lookController);
             
-            //TODO: change cameraService to conrtoller that can send information about camera rotation
-            _shootingController.Initialize(playerInputs, _lookController, projectileFactory);
+            _shootingController.Initialize(inputService, _lookController, projectileFactory);
             _view.Initialize(_characterHealth, _lookController);
         }
         

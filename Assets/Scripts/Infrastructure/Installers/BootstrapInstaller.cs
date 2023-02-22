@@ -44,8 +44,8 @@ namespace JoyWay.Infrastructure.Installers
                 .AsSingle()
                 .NonLazy();
             
-            Container.Bind<PlayerInputs>()
-                .FromNew()
+            Container.Bind<InputService>()
+                .FromNewComponentOnNewGameObject()
                 .AsSingle()
                 .NonLazy();
             
