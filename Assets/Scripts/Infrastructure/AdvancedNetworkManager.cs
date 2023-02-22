@@ -39,28 +39,27 @@ namespace JoyWay.Infrastructure
             singleton = this;
         }
 
-        public override void OnServerConnect(NetworkConnectionToClient conn)
-        {
-            SpawnCharacter(conn);
-        }
-
         public override void OnStartClient()
         {
+            base.OnStartClient();
             Connected?.Invoke();
         }
 
         public override void OnStopClient()
         {
+            base.OnStopClient();
             Disconnected?.Invoke();
         }
 
         public override void OnStartHost()
         {
+            base.OnStartHost();
             Connected?.Invoke();
         }
 
         public override void OnStopHost()
         {
+            base.OnStopHost();
             Disconnected?.Invoke();
         }
 
@@ -68,11 +67,26 @@ namespace JoyWay.Infrastructure
         {
             _publisher.Publish(new CharacterSpawnedEvent(characterContainer));
         }
-        
-        private void SpawnCharacter(NetworkConnectionToClient player)
+
+        private void RespawnCharacter(CharacterHealth characterHealth)
+        {
+            characterHealth.Died -= RespawnCharacter;
+            var conn = characterHealth.netIdentity.connectionToClient;
+            NetworkServer.Destroy(characterHealth.gameObject);
+            SpawnCharacter(conn);
+        }
+
+        private void SpawnCharacter(NetworkConnectionToClient conn)
         {
             Transform spawnPoint = GetRandomSpawnPoint();
-            _characterFactory.CreateCharacter(spawnPoint, player);
+            var character = _characterFactory.CreateCharacter(spawnPoint, conn);
+            var characterHealth = character.GetCharacterHealthComponent();
+            characterHealth.Died += RespawnCharacter;
+        }
+
+        public override void OnServerAddPlayer(NetworkConnectionToClient conn)
+        {
+            SpawnCharacter(conn);
         }
 
         private Transform GetRandomSpawnPoint()
