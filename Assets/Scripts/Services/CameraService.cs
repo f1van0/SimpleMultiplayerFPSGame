@@ -1,5 +1,6 @@
 ﻿using System;
 using Cinemachine;
+using JoyWay.Infrastructure;
 using UnityEngine;
 using Zenject;
 
@@ -11,6 +12,24 @@ namespace JoyWay.Services
         [SerializeField] private Camera _camera;
 
         public Action<Vector3> LookDirectionUpdated;
+
+        [Inject]
+        public void Construct(AdvancedNetworkManager networkManager)
+        {
+            networkManager.Connected += EnableFpsCamera;
+            networkManager.Disconnected += DisableFpsCamera;
+            Cursor.lockState = CursorLockMode.Confined;
+        }
+
+        private void EnableFpsCamera()
+        {
+            _fpsCamera.enabled = true;
+        }
+
+        private void DisableFpsCamera()
+        {
+            _fpsCamera.enabled = false;
+        }
 
         public void SetFollowTarget(Transform targetTransform)
         {
