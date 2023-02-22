@@ -1,26 +1,30 @@
-﻿using JoyWay.Services;
+﻿using JoyWay.Infrastructure;
+using JoyWay.Services;
 using JoyWay.UI;
 using UnityEngine;
 
 public class UIFactory
 {
     private AssetContainer _assetContainer;
+    private AdvancedNetworkManager _networkManager;
 
-    public UIFactory(AssetContainer assetContainer)
+    public UIFactory(AssetContainer assetContainer, AdvancedNetworkManager networkManager)
     {
         _assetContainer = assetContainer;
+        _networkManager = networkManager;
     }
     
     public MainMenuUI CreateMainMenuUI()
     {
         MainMenuUI mainMenuUI = Object.Instantiate(_assetContainer.MainMenuUI.Value);
-        mainMenuUI.Initialize();
+        mainMenuUI.Initialize(_networkManager);
         return mainMenuUI;
     }
 
-    public GameObject CreateCrosshairUI()
+    public CrosshairUI CreateCrosshairUI()
     {
-        GameObject crosshairUI = Object.Instantiate(_assetContainer.CrosshairUI.Value);
+        CrosshairUI crosshairUI = Object.Instantiate(_assetContainer.CrosshairUI.Value);
+        crosshairUI.Initialize(_networkManager);
         return crosshairUI;
     }
 }

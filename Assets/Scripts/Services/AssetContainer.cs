@@ -17,7 +17,7 @@ namespace JoyWay.Services
         public readonly LazyResource<MainMenuUI> MainMenuUI =
             new LazyResource<MainMenuUI>(Constants.MainMenuUI);
 
-        public readonly LazyResource<GameObject> CrosshairUI =
-            new LazyResource<GameObject>(Constants.CrosshairUI);
+        public readonly LazyResource<CrosshairUI> CrosshairUI =
+            new LazyResource<CrosshairUI>(Constants.CrosshairUI);
     }
 }

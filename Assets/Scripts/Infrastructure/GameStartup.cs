@@ -11,25 +11,21 @@ namespace JoyWay.Infrastructure
     public class GameStartup : IInitializable
     {
         private AdvancedNetworkManager _networkManager;
-        private CharacterFactory _characterFactory;
         private SceneLoader _sceneLoader;
         private AssetContainer _assetContainer;
-
-        private IPublisher<CharacterSpawnedEvent> _publisher;
-        private ISubscriber<CharacterSpawnedEvent> _subscriber;
+        private UIFactory _uiFactory;
+        private PlayerInputs _playerInputs;
 
         public GameStartup(
             AdvancedNetworkManager networkManager,
-            CharacterFactory characterFactory,
+            UIFactory uiFactory,
             SceneLoader sceneLoader,
-            IPublisher<CharacterSpawnedEvent> publisher,
-            ISubscriber<CharacterSpawnedEvent> subscriber)
+            PlayerInputs playerInputs)
         {
+            _uiFactory = uiFactory;
             _networkManager = networkManager;
-            _characterFactory = characterFactory;
             _sceneLoader = sceneLoader;
-            _publisher = publisher;
-            _subscriber = subscriber;
+            _playerInputs = playerInputs;
         }
 
         public void Initialize()
@@ -39,7 +35,9 @@ namespace JoyWay.Infrastructure
 
         private void SceneLoaded()
         {
-            _networkManager.StartHost();
+            _playerInputs.Enable();
+            _uiFactory.CreateMainMenuUI();
+            _uiFactory.CreateCrosshairUI();
         }
     }
 }

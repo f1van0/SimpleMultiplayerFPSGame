@@ -22,7 +22,8 @@ namespace JoyWay.Infrastructure.Installers
 
             Container.Bind<AdvancedNetworkManager>()
                 .FromComponentInNewPrefab(_networkManagerPrefab)
-                .AsSingle();
+                .AsSingle()
+                .NonLazy();
 
             Container.Bind<IInitializable>()
                 .To<GameStartup>()
@@ -40,11 +41,13 @@ namespace JoyWay.Infrastructure.Installers
         {
             Container.Bind<AssetContainer>()
                 .FromNew()
-                .AsSingle();
+                .AsSingle()
+                .NonLazy();
             
             Container.Bind<PlayerInputs>()
                 .FromNew()
-                .AsSingle();
+                .AsSingle()
+                .NonLazy();
             
             Container.Bind<SceneLoader>()
                 .FromNewComponentOnNewGameObject()
@@ -61,15 +64,18 @@ namespace JoyWay.Infrastructure.Installers
         {
             Container.Bind<UIFactory>()
                 .FromNew()
-                .AsSingle();
+                .AsSingle()
+                .NonLazy();
             
             Container.Bind<CharacterFactory>()
                 .FromNew()
-                .AsSingle();
+                .AsSingle()
+                .NonLazy();
 
             Container.Bind<ProjectileFactory>()
                 .FromNew()
-                .AsSingle();
+                .AsSingle()
+                .NonLazy();
         }
     }
 }
