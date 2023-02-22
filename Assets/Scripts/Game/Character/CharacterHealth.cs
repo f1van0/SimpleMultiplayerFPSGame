@@ -1,4 +1,5 @@
 ﻿using System;
+using JoyWay.Infrastructure;
 using Mirror;
 using UnityEngine;
 
@@ -7,7 +8,7 @@ namespace JoyWay.Game.Character
     public class CharacterHealth : NetworkBehaviour
     {
         public Action<int> HealthChanged;
-        public Action<NetworkIdentity> Died;
+        public Action<CharacterHealth> Died;
 
         [field: SerializeField] public int MaxHealth { get; private set; }
         
@@ -34,7 +35,7 @@ namespace JoyWay.Game.Character
         {
             if (_health < 0)
             {
-                Died?.Invoke(this.netIdentity);
+                Died?.Invoke(this);
             }
         }
 

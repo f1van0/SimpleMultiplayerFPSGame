@@ -280,6 +280,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4917376580c144a48a4f7a2e9f717244, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
   _characterHealth: {fileID: 6925456842962145681}
   _movementController: {fileID: 4225563816771487377}
   _shootingController: {fileID: 4225563816771487388}
@@ -322,10 +325,8 @@ MonoBehaviour:
   _movementForce: 35
   _jumpForce: 6
   _groundDrag: 5
+  _airDrag: 0
   _groundRaycastLength: 1.1
-  _terrainLayer:
-    serializedVersion: 2
-    m_Bits: 8
 --- !u!114 &4225563816771487388
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -373,7 +374,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncDirection: 0
   syncMode: 0
-  syncInterval: 0.649
+  syncInterval: 0.1
   _eyes: {fileID: 4225563816964482361}
 --- !u!54 &4225563816771487391
 Rigidbody:

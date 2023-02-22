@@ -35,6 +35,7 @@ namespace JoyWay.Game.Character
             CmdChangeLookDirection(direction);
         }
 
+        [Command]
         private void CmdChangeLookDirection(Vector3 direction)
         {
             _lookDirection = direction;

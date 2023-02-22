@@ -14,9 +14,9 @@ namespace JoyWay.Game.Character
         [SerializeField] private float _movementForce;
         [SerializeField] private float _jumpForce;
         [SerializeField] private float _groundDrag;
+        [SerializeField] private float _airDrag;
         [SerializeField] private float _groundRaycastLength;
-        [SerializeField] private LayerMask _terrainLayer;
-
+        
         private PlayerInputs _playerInputs;
         private CharacterLookController _lookController;
 
@@ -38,6 +38,9 @@ namespace JoyWay.Game.Character
         
         private void Move()
         {
+            if (!isOwned)
+                return;
+            
             _inputDirection = _playerInputs.Character.Move.ReadValue<Vector2>();
             _moveDirection = InputDirectionToCameraLookDirection(_inputDirection);
             CmdPerformMove(_moveDirection);
@@ -78,7 +81,7 @@ namespace JoyWay.Game.Character
             if (CheckGrounded())
                 _rigidbody.drag = _groundDrag;
             else
-                _rigidbody.drag = 0;
+                _rigidbody.drag = _airDrag;
         }
 
         [Server]
@@ -102,7 +105,7 @@ namespace JoyWay.Game.Character
         private bool CheckGrounded()
         {
             Ray rayToGround = new Ray(transform.position, -transform.up);
-            bool isGrounded = Physics.Raycast(rayToGround, _groundRaycastLength, _terrainLayer.value);
+            bool isGrounded = Physics.Raycast(rayToGround, _groundRaycastLength);
             return isGrounded;
         }
 

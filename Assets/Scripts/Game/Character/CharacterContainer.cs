@@ -2,12 +2,13 @@
 using JoyWay.Infrastructure;
 using JoyWay.Infrastructure.Factories;
 using JoyWay.Services;
+using Mirror;
 using UnityEngine;
 using Zenject;
 
 namespace JoyWay.Game.Character
 {
-    public class CharacterContainer : MonoBehaviour
+    public class CharacterContainer : NetworkBehaviour
     {
         [SerializeField] private CharacterHealth _characterHealth;
         [SerializeField] private CharacterMovementController _movementController;
@@ -15,8 +16,6 @@ namespace JoyWay.Game.Character
         [SerializeField] private CharacterInteractionController _interactionController;
         [SerializeField] private CharacterLookController _lookController;
         [SerializeField] private CharacterView _view;
-        
-        private PlayerInputs _playerInputs;
 
         [Inject]
         public void Construct(
@@ -24,8 +23,6 @@ namespace JoyWay.Game.Character
             CameraService cameraService,
             ProjectileFactory projectileFactory)
         {
-            _playerInputs = playerInputs;
-            _playerInputs.Enable();
             //if (isServer)
             //{
                 _characterHealth.Initialize();
@@ -42,15 +39,16 @@ namespace JoyWay.Game.Character
             _shootingController.Initialize(playerInputs, _lookController, projectileFactory);
             _view.Initialize(_characterHealth, _lookController);
         }
-
+        
         private void Start()
         {
+            Debug.Log(isOwned);
             AdvancedNetworkManager.singleton.NotifyCharacterWasSpawned(this);
         }
 
-        private void OnDestroy()
+        public CharacterHealth GetCharacterHealthComponent()
         {
-            _playerInputs.Disable();
+            return _characterHealth;
         }
     }
 }
