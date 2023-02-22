@@ -35,7 +35,6 @@ namespace JoyWay.Game.Character
         
         private void Start()
         {
-            Debug.Log(isOwned);
             AdvancedNetworkManager.singleton.NotifyCharacterWasSpawned(this);
         }
 

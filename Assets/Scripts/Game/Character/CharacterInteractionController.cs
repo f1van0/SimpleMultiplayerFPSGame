@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 namespace JoyWay.Game.Character
 {
-    public class CharacterInteractionController : NetworkBehaviour
+    public class CharacterInteractionController : AdvancedNetworkBehaviour
     {
         [SerializeField] private Transform _handEndTransform;
         [SerializeField] private float _maxInteractionDistance;
@@ -18,7 +18,8 @@ namespace JoyWay.Game.Character
 
         public void Initialize(InputService inputService, CharacterLookController lookController)
         {
-            if (!isOwned)
+            _isOwnedCached = isOwned;
+            if (!_isOwnedCached)
                 return;
             
             _inputService = inputService;
@@ -97,7 +98,7 @@ namespace JoyWay.Game.Character
 
         private void OnDestroy()
         {
-            if (isOwned)
+            if (_isOwnedCached)
                 _inputService.Interact -= Interact;
         }
     }

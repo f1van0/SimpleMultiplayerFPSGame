@@ -30,7 +30,7 @@ namespace JoyWay.Infrastructure.Factories
         public CharacterContainer CreateCharacter(Transform at, NetworkConnectionToClient conn)
         {
             CharacterContainer characterContainer = Object.Instantiate(_assetContainer.Character.Value, at.position, at.rotation);
-            NetworkServer.AddPlayerForConnection(conn, characterContainer.gameObject);
+            NetworkServer.Spawn(characterContainer.gameObject, conn);
             return characterContainer;
         }
 

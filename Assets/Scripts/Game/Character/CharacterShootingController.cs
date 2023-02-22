@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 namespace JoyWay.Game.Character
 {
-    public class CharacterShootingController : NetworkBehaviour
+    public class CharacterShootingController : AdvancedNetworkBehaviour
     {
         [SerializeField] private Transform _handEndTransform;
         
@@ -18,7 +18,8 @@ namespace JoyWay.Game.Character
 
         public void Initialize(InputService inputService, CharacterLookController lookController, ProjectileFactory projectileFactory)
         {
-            if (isOwned)
+            _isOwnedCached = isOwned;
+            if (_isOwnedCached)
             {
                 _inputService = inputService;
                 _inputService.Fire += Fire;
@@ -45,7 +46,7 @@ namespace JoyWay.Game.Character
 
         private void OnDestroy()
         {
-            if (isOwned)
+            if (_isOwnedCached)
                 _inputService.Fire -= Fire;
         }
     }

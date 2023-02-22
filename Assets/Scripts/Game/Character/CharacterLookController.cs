@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace JoyWay.Game.Character
 {
-    public class CharacterLookController : NetworkBehaviour
+    public class CharacterLookController : AdvancedNetworkBehaviour
     {
         public Action<Vector3> LookDirectionChanged;
 
@@ -21,7 +21,9 @@ namespace JoyWay.Game.Character
             //TODO: Divide into 2 parts:
             //TODO: 1 part - localplayer who subscribe Action LookDirectionChanged from CameraService directly
             //TODO: 2 part - remoteClients who subscribe on Action LookDirectionChanged from changing syncvar LookDirection
-            if (!isOwned)
+
+            _isOwnedCached = isOwned;
+            if (!_isOwnedCached)
                 return;
 
             _cameraService = cameraService;
@@ -43,7 +45,7 @@ namespace JoyWay.Game.Character
 
         private void SetLookDirection(Vector3 oldLookDirection, Vector3 newLookDirection)
         {
-            if (!isOwned)
+            if (!_isOwnedCached)
                 LookDirectionChanged?.Invoke(newLookDirection);
         }
 
@@ -59,7 +61,7 @@ namespace JoyWay.Game.Character
 
         private void OnDestroy()
         {
-            if (isOwned)
+            if (_isOwnedCached)
                 _cameraService.LookDirectionUpdated -= UpdateLookDirection;
         }
     }

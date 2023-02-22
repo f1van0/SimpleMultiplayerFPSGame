@@ -86,6 +86,7 @@ namespace JoyWay.Infrastructure
 
         public override void OnServerAddPlayer(NetworkConnectionToClient conn)
         {
+            base.OnServerAddPlayer(conn);
             SpawnCharacter(conn);
         }
 

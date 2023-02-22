@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 namespace JoyWay.Game.Character
 {
-    public class CharacterMovementController : NetworkBehaviour
+    public class CharacterMovementController : AdvancedNetworkBehaviour
     {
         [SerializeField] private Rigidbody _rigidbody;
 
@@ -26,7 +26,8 @@ namespace JoyWay.Game.Character
 
         public void Initialize(InputService inputService, CharacterLookController lookController)
         {
-            if (!isOwned)
+            _isOwnedCached = isOwned;
+            if (!_isOwnedCached)
                 return;
                 
             _inputService = inputService;
@@ -99,7 +100,7 @@ namespace JoyWay.Game.Character
 
         private void OnDestroy()
         {
-            if (isLocalPlayer)
+            if (_isOwnedCached)
             {
                 _inputService.Move -= Move;
                 _inputService.Jump -= Jump;
