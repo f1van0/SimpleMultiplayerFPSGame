@@ -1,22 +1,26 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using JoyWay.Resources;
+using UnityEngine;
 
 namespace JoyWay.Game
 {
     public class LevelSpawnPoints : MonoBehaviour
     {
-        [SerializeField]
-        private Transform[] spawnPoints;
+        private GameObject[] _charactersSpawnPoints;
 
-        public Transform[] GetSpawnPoints()
+        public GameObject[] GetSpawnPoints()
         {
-            return spawnPoints;
+            return GameObject.FindGameObjectsWithTag(Constants.SpawnPointTag);
         }
 
         public Transform GetRandomSpawnPoint()
         {
-            int index = Random.Range(0, spawnPoints.Length);
+            if (_charactersSpawnPoints == null)
+                _charactersSpawnPoints = GetSpawnPoints();
+            
+            int index = Random.Range(0, _charactersSpawnPoints.Length);
 
-            return spawnPoints[index];
+            return _charactersSpawnPoints[index].transform;
         }
     }
 }
