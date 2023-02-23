@@ -15,11 +15,11 @@ namespace JoyWay.Infrastructure.Factories
             _assetContainer = assetContainer;
         }
         
-        public Projectile CreateFireball(Vector3 at, Vector3 direction)
+        public Projectile CreateFireball(Vector3 at, Vector3 direction, uint sender)
         {
             Projectile fireball = Object.Instantiate(_assetContainer.Fireball.Value, at, Quaternion.identity);
             NetworkServer.Spawn(fireball.gameObject);
-            fireball.Throw(direction);
+            fireball.Throw(direction, sender);
             return fireball;
         }
     }

@@ -20,10 +20,10 @@ namespace JoyWay.Game.Projectiles
         }
 
         [Server]
-        public override void Throw(Vector3 direction)
+        public override void Throw(Vector3 direction, uint sender)
         {
             ReleaseFromHand(); 
-            base.Throw(direction);
+            base.Throw(direction, sender);
         }
 
         private void PutInHand(Transform hand)

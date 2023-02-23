@@ -37,7 +37,7 @@ namespace JoyWay.Game.Character
         [Command]
         private void CmdFire(Vector3 position, Vector3 lookDirection)
         {
-            _projectileFactory.CreateFireball(position, lookDirection);
+            _projectileFactory.CreateFireball(position, lookDirection, netIdentity.netId);
         }
     }
 }

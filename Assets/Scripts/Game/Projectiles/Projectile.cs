@@ -13,9 +13,12 @@ namespace JoyWay.Game.Projectiles
         [SerializeField] private HitEffect _hitEffect;
         [SerializeField] private float _force;
 
+        private uint _sender;
+
         [Server]
-        public virtual void Throw(Vector3 direction)
+        public virtual void Throw(Vector3 direction, uint sender)
         {
+            _sender = sender;
             _rigidbody.AddForce(direction * _force, ForceMode.Impulse);
         }
 
@@ -26,6 +29,9 @@ namespace JoyWay.Game.Projectiles
             
             if (other.gameObject.TryGetComponent<NetworkCharacterHealthComponent>(out var characterHealth))
             {
+                if (characterHealth.netIdentity.netId == _sender)
+                    return;
+                
                 _hitEffect.ApplyEffect(characterHealth);
             }
 

@@ -37,7 +37,7 @@ namespace JoyWay.Game.Character
         {
             if (_objectInHand != null)
             {
-                _objectInHand.Throw(direction);
+                _objectInHand.Throw(direction, netIdentity.netId);
                 _objectInHand = null;
                 return;
             }
