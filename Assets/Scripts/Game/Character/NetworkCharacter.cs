@@ -2,17 +2,20 @@
 using JoyWay.Infrastructure;
 using JoyWay.Infrastructure.Factories;
 using JoyWay.Services;
+using Mirror;
 using UnityEngine;
 using Zenject;
 
 namespace JoyWay.Game.Character
 {
-    public class NetworkCharacter : AdvancedNetworkBehaviour
+    public class NetworkCharacter : NetworkBehaviour
     {
         [SerializeField] private CharacterContainer _container;
         private CameraService _cameraService;
         private InputService _inputService;
 
+        private bool _isOwned;
+        
         [Inject]
         public void Construct(
             InputService inputService,
@@ -51,19 +54,19 @@ namespace JoyWay.Game.Character
         
         private void Start()
         {
-            _isOwnedCached = isOwned;
+            _isOwned = isOwned;
             AdvancedNetworkManager.singleton.NotifyCharacterWasSpawned(this);
         }
 
         private void OnDestroy()
         {
-            if (_isOwnedCached)
+            if (_isOwned)
             {
                 _cameraService.LookDirectionUpdated -= _container.LookComponent.UpdateLookDirection;
+                _inputService.Fire -= _container.ShootingComponent.Fire; // something wrong with unsubscribe, because after respawn character cant attack
                 _inputService.Move -= _container.MovementComponent.Move;
                 _inputService.Jump -= _container.MovementComponent.Jump;
                 _inputService.Interact -= _container.InteractionComponent.Interact;
-                _inputService.Fire -= _container.ShootingComponent.Fire;
             }
             
             _container.LookComponent.LookDirectionChanged -= _container.ViewComponent.ChangeLookDirection;
