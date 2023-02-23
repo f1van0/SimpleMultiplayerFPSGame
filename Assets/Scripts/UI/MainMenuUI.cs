@@ -6,28 +6,21 @@ using Zenject;
 
 namespace JoyWay.UI
 {
-    public class MainMenuUI : MonoBehaviour
+    public class MainMenuUI : HideableUI
     {
-        [SerializeField] private GameObject _panel;
+        [HideInInspector]
+        public Button.ButtonClickedEvent ConnectButtonClicked;
+
+        [HideInInspector]
+        public Button.ButtonClickedEvent HostButtonClicked;
+        
         [SerializeField] private Button _hostButton;
         [SerializeField] private Button _connectButton;
 
-        public void Initialize(AdvancedNetworkManager networkManager)
+        public void Initialize()
         {
-            networkManager.Connected += Hide;
-            networkManager.Disconnected += Show;
-            _connectButton.onClick.AddListener(networkManager.StartClient);
-            _hostButton.onClick.AddListener(networkManager.StartHost);
-        }
-
-        public void Show()
-        {
-            _panel.SetActive(true);
-        }
-
-        public void Hide()
-        {
-            _panel.SetActive(false);
+            ConnectButtonClicked = _connectButton.onClick;
+            HostButtonClicked = _hostButton.onClick;
         }
     }
 }

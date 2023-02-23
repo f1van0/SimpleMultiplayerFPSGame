@@ -29,6 +29,11 @@ namespace JoyWay.Infrastructure.Installers
                 .To<GameStartup>()
                 .AsSingle()
                 .NonLazy();
+
+            Container.Bind<GameFlow>()
+                .FromNewComponentOnNewGameObject()
+                .AsSingle()
+                .NonLazy();
         }
 
         private void InstallMessagePipe()

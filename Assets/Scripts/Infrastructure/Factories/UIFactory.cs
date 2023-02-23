@@ -17,14 +17,13 @@ public class UIFactory
     public MainMenuUI CreateMainMenuUI()
     {
         MainMenuUI mainMenuUI = Object.Instantiate(_assetContainer.MainMenuUI.Value);
-        mainMenuUI.Initialize(_networkManager);
+        mainMenuUI.Initialize();
         return mainMenuUI;
     }
 
-    public CrosshairUI CreateCrosshairUI()
+    public HideableUI CreateCrosshairUI()
     {
-        CrosshairUI crosshairUI = Object.Instantiate(_assetContainer.CrosshairUI.Value);
-        crosshairUI.Initialize(_networkManager);
+        HideableUI crosshairUI = Object.Instantiate(_assetContainer.CrosshairUI.Value);
         return crosshairUI;
     }
 }

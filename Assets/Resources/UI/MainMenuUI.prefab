@@ -113,13 +113,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e931604f3be54d259218edb389555770, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Connect:
+  _hideableObject: {fileID: 5980467239354135803}
+  ConnectButtonClicked:
     m_PersistentCalls:
       m_Calls: []
-  Host:
+  HostButtonClicked:
     m_PersistentCalls:
       m_Calls: []
-  _panel: {fileID: 5980467239354135803}
   _hostButton: {fileID: 5980467239670779699}
   _connectButton: {fileID: 5980467239727853742}
 --- !u!1 &5980467239354135803

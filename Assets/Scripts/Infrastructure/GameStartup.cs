@@ -11,14 +11,14 @@ namespace JoyWay.Infrastructure
     public class GameStartup : IInitializable
     {
         private SceneLoader _sceneLoader;
-        private UIFactory _uiFactory;
+        private GameFlow _gameFlow;
 
         public GameStartup(
-            UIFactory uiFactory,
-            SceneLoader sceneLoader)
+            SceneLoader sceneLoader,
+            GameFlow gameFlow)
         {
-            _uiFactory = uiFactory;
             _sceneLoader = sceneLoader;
+            _gameFlow = gameFlow;
         }
 
         public void Initialize()
@@ -28,8 +28,7 @@ namespace JoyWay.Infrastructure
 
         private void SceneLoaded()
         {
-            _uiFactory.CreateMainMenuUI();
-            _uiFactory.CreateCrosshairUI();
+            _gameFlow.StartGame();
         }
     }
 }
