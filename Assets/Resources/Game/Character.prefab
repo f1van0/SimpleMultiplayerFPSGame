@@ -383,6 +383,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  _interpolationTimeInterval: 0.12
   _eyes: {fileID: 4225563817786467151}
 --- !u!54 &4225563816771487391
 Rigidbody:
@@ -579,10 +580,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39391c82f6a24bd7b436c281a5b26190, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _shouldersTransform: {fileID: 2563109197346059171}
+  _shouldersHeightTransform: {fileID: 2563109197346059171}
   _meshRenderer: {fileID: 4225563816946654877}
   _displayDamageTakenDelay: 0.3
-  _interpolationTimeInterval: 0.1
 --- !u!1 &4225563816964482360
 GameObject:
   m_ObjectHideFlags: 0

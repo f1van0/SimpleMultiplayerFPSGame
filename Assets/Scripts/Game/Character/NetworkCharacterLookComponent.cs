@@ -9,12 +9,17 @@ namespace JoyWay.Game.Character
     {
         public event Action<Vector3> LookDirectionChanged;
 
+        [SerializeField] private float _interpolationTimeInterval;
         [SerializeField] private Transform _eyes;
         
         [SyncVar(hook = nameof(SetLookDirection))]
         private Vector3 _lookDirection;
-        
+
         private CameraService _cameraService;
+
+        private Vector3 _newLookDirection;
+        private Vector3 _currentLookDirection;
+        private float _timer;
 
         public void Initialize(CameraService cameraService)
         {
@@ -36,8 +41,26 @@ namespace JoyWay.Game.Character
 
         private void SetLookDirection(Vector3 oldLookDirection, Vector3 newLookDirection)
         {
-            if (!isOwned)
-                LookDirectionChanged?.Invoke(newLookDirection);
+            _timer = 0;
+            _newLookDirection = newLookDirection;
+        }
+
+        private void Update()
+        {
+            UpdateLookDirectionByInterpolation();
+        }
+
+        private void UpdateLookDirectionByInterpolation()
+        {
+            if (isOwned)
+                return;
+
+            _timer += Time.deltaTime;
+
+            _currentLookDirection =
+                Vector3.Lerp(_currentLookDirection, _newLookDirection, _timer / _interpolationTimeInterval);
+
+            LookDirectionChanged?.Invoke(_currentLookDirection);
         }
 
         public Transform GetCameraTransform()
