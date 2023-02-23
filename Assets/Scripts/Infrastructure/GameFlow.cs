@@ -9,7 +9,8 @@ public class GameFlow : MonoBehaviour
     private AdvancedNetworkManager _networkManager;
     private UIFactory _uiFactory;
 
-    private MainMenuUI _mainMenuUI;
+    private MainMenuController _mainMenu;
+    
     private HideableUI _crosshairUI;
 
     [Inject]
@@ -21,23 +22,29 @@ public class GameFlow : MonoBehaviour
 
     public void StartGame()
     {
-        _mainMenuUI = _uiFactory.CreateMainMenuUI();
+        _mainMenu = _uiFactory.CreateMainMenu();
         _crosshairUI = _uiFactory.CreateCrosshairUI();
-        _networkManager.Connected += _mainMenuUI.Hide;
-        _networkManager.Disconnected += _mainMenuUI.Show;
-        _networkManager.Connected += _crosshairUI.Show;
-        _networkManager.Disconnected += _crosshairUI.Hide;
-        _mainMenuUI.HostButtonClicked.AddListener(_networkManager.StartHost);
-        _mainMenuUI.ConnectButtonClicked.AddListener(_networkManager.StartClient);
+        _networkManager.Connected += GoToGame;
+        _networkManager.Disconnected += GoToMenu;
+    }
+
+    private void GoToMenu()
+    {
+        _mainMenu.Show();
+        _crosshairUI.Hide();
+    }
+
+    private void GoToGame()
+    {
+        _mainMenu.Hide();
+        _crosshairUI.Show();
     }
 
     private void OnDestroy()
     {
-        _networkManager.Connected -= _mainMenuUI.Hide;
-        _networkManager.Disconnected -= _mainMenuUI.Show;
+        _networkManager.Connected -= _mainMenu.Hide;
+        _networkManager.Disconnected -= _mainMenu.Show;
         _networkManager.Connected -= _crosshairUI.Show;
         _networkManager.Disconnected -= _crosshairUI.Hide;
-        _mainMenuUI.HostButtonClicked.RemoveAllListeners();
-        _mainMenuUI.ConnectButtonClicked.RemoveAllListeners();
     }
 }

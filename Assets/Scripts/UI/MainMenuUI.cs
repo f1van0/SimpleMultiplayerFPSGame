@@ -1,8 +1,5 @@
-﻿using System;
-using JoyWay.Infrastructure;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using Zenject;
 
 namespace JoyWay.UI
 {
@@ -17,7 +14,7 @@ namespace JoyWay.UI
         [SerializeField] private Button _hostButton;
         [SerializeField] private Button _connectButton;
 
-        public void Initialize()
+        private void Awake()
         {
             ConnectButtonClicked = _connectButton.onClick;
             HostButtonClicked = _hostButton.onClick;

@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class UIFactory
 {
-    private AssetContainer _assetContainer;
-    private AdvancedNetworkManager _networkManager;
+    private readonly AssetContainer _assetContainer;
+    private readonly AdvancedNetworkManager _networkManager;
 
     public UIFactory(AssetContainer assetContainer, AdvancedNetworkManager networkManager)
     {
@@ -14,11 +14,10 @@ public class UIFactory
         _networkManager = networkManager;
     }
     
-    public MainMenuUI CreateMainMenuUI()
+    public MainMenuController CreateMainMenu()
     {
-        MainMenuUI mainMenuUI = Object.Instantiate(_assetContainer.MainMenuUI.Value);
-        mainMenuUI.Initialize();
-        return mainMenuUI;
+        MainMenuUI mainMenu = Object.Instantiate(_assetContainer.MainMenu.Value);
+        return new MainMenuController(mainMenu, _networkManager);
     }
 
     public HideableUI CreateCrosshairUI()

@@ -14,8 +14,8 @@ namespace JoyWay.Services
         public readonly LazyResource<Projectile> Fireball =
             new LazyResource<Projectile>(Constants.Fireball);
 
-        public readonly LazyResource<MainMenuUI> MainMenuUI =
-            new LazyResource<MainMenuUI>(Constants.MainMenuUI);
+        public readonly LazyResource<MainMenuUI> MainMenu =
+            new LazyResource<MainMenuUI>(Constants.MainMenu);
 
         public readonly LazyResource<HideableUI> CrosshairUI =
             new LazyResource<HideableUI>(Constants.CrosshairUI);
