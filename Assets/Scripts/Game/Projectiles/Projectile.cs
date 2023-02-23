@@ -1,4 +1,5 @@
-﻿using JoyWay.Game.Character;
+﻿using System;
+using JoyWay.Game.Character;
 using Mirror;
 using UnityEngine;
 
@@ -7,7 +8,7 @@ namespace JoyWay.Game.Projectiles
     public class Projectile : NetworkBehaviour
     {
         [SerializeField] protected Rigidbody _rigidbody;
-        [SerializeField] protected bool _handleCollision;
+        [SerializeField] protected Collider _collider;
         
         [SerializeField] private HitEffect _hitEffect;
         [SerializeField] private float _force;
@@ -17,10 +18,10 @@ namespace JoyWay.Game.Projectiles
         {
             _rigidbody.AddForce(direction * _force, ForceMode.Impulse);
         }
-        
-        private void OnCollisionEnter(Collision other)
+
+        private void OnTriggerEnter(Collider other)
         {
-            if (!_handleCollision || !isServer)
+            if (!isServer)
                 return;
             
             if (other.gameObject.TryGetComponent<NetworkCharacterHealthComponent>(out var characterHealth))
