@@ -8,39 +8,15 @@ using Zenject;
 
 namespace JoyWay.Game.Character
 {
-    public class CharacterContainer : NetworkBehaviour
+    public class CharacterContainer : MonoBehaviour
     {
-        [SerializeField] private CharacterHealth _characterHealth;
-        [SerializeField] private CharacterMovementController _movementController;
-        [SerializeField] private CharacterShootingController _shootingController;
-        [SerializeField] private CharacterInteractionController _interactionController;
-        [SerializeField] private CharacterLookController _lookController;
-        [SerializeField] private CharacterView _view;
-
-        [Inject]
-        public void Construct(
-            InputService inputService,
-            CameraService cameraService,
-            ProjectileFactory projectileFactory)
-        {
-            _characterHealth.Initialize();
-            
-            _lookController.Initialize(cameraService);
-            _movementController.Initialize(inputService, _lookController);
-            _interactionController.Initialize(inputService, _lookController);
-            
-            _shootingController.Initialize(inputService, _lookController, projectileFactory);
-            _view.Initialize(_characterHealth, _lookController);
-        }
-        
-        private void Start()
-        {
-            AdvancedNetworkManager.singleton.NotifyCharacterWasSpawned(this);
-        }
-
-        public CharacterHealth GetCharacterHealthComponent()
-        {
-            return _characterHealth;
-        }
+        [field: SerializeField] public NetworkCharacter NetworkCharacter { get; private set; }
+        [field: SerializeField] public NetworkCharacterHealthComponent HealthComponent { get; private set; }
+        [field: SerializeField] public NetworkCharacterMovementComponent MovementComponent { get; private set; }
+        [field: SerializeField] public NetworkCharacterShootingComponent ShootingComponent { get; private set; }
+        [field: SerializeField] public NetworkCharacterInteractionComponent InteractionComponent { get; private set; }
+        [field: SerializeField] public NetworkCharacterLookComponent LookComponent { get; private set; }
+        [field: SerializeField] public CharacterViewComponent ViewComponent { get; private set; }
+        [field: SerializeField] public CharacterHealthBarUI HealthBarUI { get; private set; }
     }
 }

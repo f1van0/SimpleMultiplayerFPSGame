@@ -23,7 +23,7 @@ namespace JoyWay.Game.Projectiles
             if (!_handleCollision || !isServer)
                 return;
             
-            if (other.gameObject.TryGetComponent<CharacterHealth>(out var characterHealth))
+            if (other.gameObject.TryGetComponent<NetworkCharacterHealthComponent>(out var characterHealth))
             {
                 _hitEffect.ApplyEffect(characterHealth);
             }

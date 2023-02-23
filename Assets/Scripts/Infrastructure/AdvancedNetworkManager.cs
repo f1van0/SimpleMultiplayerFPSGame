@@ -15,19 +15,19 @@ namespace JoyWay.Infrastructure
 {
     public class AdvancedNetworkManager : NetworkManager
     {
-        public static new AdvancedNetworkManager singleton { get; private set; }
+        public new static AdvancedNetworkManager singleton { get; private set; }
         
         public event Action Connected;
         public event Action Disconnected;
         
         private LevelSpawnPoints _levelSpawnPoints;
         private CharacterFactory _characterFactory;
-        private IPublisher<CharacterSpawnedEvent> _publisher;
+        private IPublisher<NetworkCharacterSpawnedEvent> _publisher;
 
         [Inject]
         public void Construct(
             CharacterFactory characterFactory,
-            IPublisher<CharacterSpawnedEvent> characterSpawnedPublisher)
+            IPublisher<NetworkCharacterSpawnedEvent> characterSpawnedPublisher)
         {
             _characterFactory = characterFactory;
             _publisher = characterSpawnedPublisher;
@@ -63,16 +63,16 @@ namespace JoyWay.Infrastructure
             Disconnected?.Invoke();
         }
 
-        public void NotifyCharacterWasSpawned(CharacterContainer characterContainer)
+        public void NotifyCharacterWasSpawned(NetworkCharacter character)
         {
-            _publisher.Publish(new CharacterSpawnedEvent(characterContainer));
+            _publisher.Publish(new NetworkCharacterSpawnedEvent(character));
         }
 
-        private void RespawnCharacter(CharacterHealth characterHealth)
+        private void RespawnCharacter(NetworkCharacterHealthComponent networkCharacterHealthComponent)
         {
-            characterHealth.Died -= RespawnCharacter;
-            var conn = characterHealth.netIdentity.connectionToClient;
-            NetworkServer.Destroy(characterHealth.gameObject);
+            networkCharacterHealthComponent.Died -= RespawnCharacter;
+            var conn = networkCharacterHealthComponent.netIdentity.connectionToClient;
+            NetworkServer.Destroy(networkCharacterHealthComponent.gameObject);
             SpawnCharacter(conn);
         }
 
@@ -80,7 +80,7 @@ namespace JoyWay.Infrastructure
         {
             Transform spawnPoint = GetRandomSpawnPoint();
             var character = _characterFactory.CreateCharacter(spawnPoint, conn);
-            var characterHealth = character.GetCharacterHealthComponent();
+            var characterHealth = character.HealthComponent;
             characterHealth.Died += RespawnCharacter;
         }
 

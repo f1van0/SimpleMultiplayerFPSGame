@@ -6,30 +6,28 @@ using UnityEngine.InputSystem;
 
 namespace JoyWay.Game.Character
 {
-    public class CharacterInteractionController : AdvancedNetworkBehaviour
+    public class NetworkCharacterInteractionComponent : NetworkBehaviour
     {
         [SerializeField] private Transform _handEndTransform;
-        [SerializeField] private float _maxInteractionDistance;
         
         private InputService _inputService;
-        private CharacterLookController _lookController;
-
+        private NetworkCharacterLookComponent _lookComponent;
+        private float _maxInteractionDistance;
         private Stone _stone;
 
-        public void Initialize(InputService inputService, CharacterLookController lookController)
+        public void Setup(float maxInteractionDistance)
         {
-            _isOwnedCached = isOwned;
-            if (!_isOwnedCached)
-                return;
-            
-            _inputService = inputService;
-            _inputService.Interact += Interact;
-            _lookController = lookController;
+            _maxInteractionDistance = maxInteractionDistance;
         }
         
-        private void Interact()
+        public void Initialize(NetworkCharacterLookComponent lookComponent)
         {
-            Transform cameraTransform = _lookController.GetCameraTransform();
+            _lookComponent = lookComponent;
+        }
+        
+        public void Interact()
+        {
+            Transform cameraTransform = _lookComponent.GetCameraTransform();
             CmdHandleInteraction(cameraTransform.position, cameraTransform.forward);
         }
 
@@ -94,12 +92,6 @@ namespace JoyWay.Game.Character
             Physics.Raycast(ray, out raycastHit, _maxInteractionDistance);
             Transform hitTransform = raycastHit.transform;
             return hitTransform;
-        }
-
-        private void OnDestroy()
-        {
-            if (_isOwnedCached)
-                _inputService.Interact -= Interact;
         }
     }
 }

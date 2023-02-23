@@ -11,16 +11,16 @@ namespace JoyWay.Game.Projectiles
         private int _numberOfTimes;
         private float _applyingEffectDelay;
         private Coroutine _coroutine;
-        private CharacterHealth _characterHealth;
+        private NetworkCharacterHealthComponent _characterHealthComponent;
 
         public void StopEffect()
         {
             StopCoroutine(_coroutine);
         }
 
-        public void Apply(CharacterHealth characterHealth, int periodicDamage, int numberOfTimes, float applingEffectDelay)
+        public void Apply(NetworkCharacterHealthComponent networkCharacterHealthComponent, int periodicDamage, int numberOfTimes, float applingEffectDelay)
         {
-            _characterHealth = characterHealth;
+            _characterHealthComponent = networkCharacterHealthComponent;
             _applyingEffectDelay = applingEffectDelay;
             _numberOfTimes = numberOfTimes;
             _periodicDamage = periodicDamage;
@@ -32,7 +32,7 @@ namespace JoyWay.Game.Projectiles
             for (int i = 0; i < _numberOfTimes; i++)
             {
                 yield return new WaitForSeconds(_applyingEffectDelay);
-                _characterHealth.ApplyDamage(_periodicDamage);
+                _characterHealthComponent.ApplyDamage(_periodicDamage);
             }
             
             Destroy(this);

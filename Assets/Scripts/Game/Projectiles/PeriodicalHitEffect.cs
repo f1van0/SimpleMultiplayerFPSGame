@@ -10,20 +10,20 @@ namespace JoyWay.Game.Projectiles
         [SerializeField] private int _numberOfTimes;
         [SerializeField] private int _periodicDamage;
         
-        public override void ApplyEffect(CharacterHealth characterHealth)
+        public override void ApplyEffect(NetworkCharacterHealthComponent characterHealthComponent)
         {
-            base.ApplyEffect(characterHealth);
+            base.ApplyEffect(characterHealthComponent);
             
-            if (characterHealth.gameObject.TryGetComponent<PeriodicalDamageComponent>(out var periodicalDamage))
+            if (characterHealthComponent.gameObject.TryGetComponent<PeriodicalDamageComponent>(out var periodicalDamage))
             {
                 periodicalDamage.StopEffect();
             }
             else
             {
-                periodicalDamage = characterHealth.gameObject.AddComponent<PeriodicalDamageComponent>();
+                periodicalDamage = characterHealthComponent.gameObject.AddComponent<PeriodicalDamageComponent>();
             }
 
-            periodicalDamage.Apply(characterHealth, _periodicDamage, _numberOfTimes, _applingEffectDelay);
+            periodicalDamage.Apply(characterHealthComponent, _periodicDamage, _numberOfTimes, _applingEffectDelay);
         }
 
     }

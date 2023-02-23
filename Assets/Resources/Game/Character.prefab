@@ -235,6 +235,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4225563816771487376}
   - component: {fileID: 4225563816771487389}
+  - component: {fileID: 6267475149744760452}
   - component: {fileID: 6925456842962145681}
   - component: {fileID: 4225563816771487377}
   - component: {fileID: 4225563816771487388}
@@ -280,15 +281,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4917376580c144a48a4f7a2e9f717244, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <NetworkCharacter>k__BackingField: {fileID: 6267475149744760452}
+  <HealthComponent>k__BackingField: {fileID: 6925456842962145681}
+  <MovementComponent>k__BackingField: {fileID: 4225563816771487377}
+  <ShootingComponent>k__BackingField: {fileID: 4225563816771487388}
+  <InteractionComponent>k__BackingField: {fileID: 2037910764080248603}
+  <LookComponent>k__BackingField: {fileID: 2870628642726163017}
+  <ViewComponent>k__BackingField: {fileID: 6053120279941911571}
+  <HealthBarUI>k__BackingField: {fileID: 424583461012578562}
+--- !u!114 &6267475149744760452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4225563816771487383}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f34605e99903406b8e3738dde99b753c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  _characterHealth: {fileID: 6925456842962145681}
-  _movementController: {fileID: 4225563816771487377}
-  _shootingController: {fileID: 4225563816771487388}
-  _interactionController: {fileID: 2037910764080248603}
-  _lookController: {fileID: 2870628642726163017}
-  _view: {fileID: 6053120279941911571}
+  _container: {fileID: 4225563816771487389}
 --- !u!114 &6925456842962145681
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -304,7 +320,6 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  <MaxHealth>k__BackingField: 100
 --- !u!114 &4225563816771487377
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -321,12 +336,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   _rigidbody: {fileID: 4225563816771487391}
-  _maxSpeed: 7
-  _movementForce: 35
-  _jumpForce: 6
-  _groundDrag: 5
-  _airDrag: 0
-  _groundRaycastLength: 1.1
 --- !u!114 &4225563816771487388
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -359,7 +368,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   _handEndTransform: {fileID: 6883509035205510550}
-  _maxInteractionDistance: 2.5
 --- !u!114 &2870628642726163017
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -571,10 +579,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39391c82f6a24bd7b436c281a5b26190, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _healthBarUI: {fileID: 424583461012578562}
   _shouldersHeightTransform: {fileID: 2563109197346059171}
   _meshRenderer: {fileID: 4225563816946654877}
-  _displayDamageTakenDelay: 0
+  _timeToUpdate: 0.3
 --- !u!1 &4225563816964482360
 GameObject:
   m_ObjectHideFlags: 0
@@ -872,8 +879,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4571236040484795770}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.35}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 0.7}
+  m_LocalPosition: {x: 0, y: 0, z: 0.45}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.9}
   m_Children:
   - {fileID: 6883509035205510550}
   m_Father: {fileID: 1808837501205285244}
@@ -985,8 +992,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8280464445621141657}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.35}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 0.7}
+  m_LocalPosition: {x: 0, y: 0, z: 0.45}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.9}
   m_Children:
   - {fileID: 4871175873870671681}
   m_Father: {fileID: 2991396655158313757}

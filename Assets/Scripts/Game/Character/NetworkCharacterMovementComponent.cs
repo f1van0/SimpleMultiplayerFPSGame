@@ -6,45 +6,52 @@ using UnityEngine.InputSystem;
 
 namespace JoyWay.Game.Character
 {
-    public class CharacterMovementController : AdvancedNetworkBehaviour
+    public class NetworkCharacterMovementComponent : NetworkBehaviour
     {
         [SerializeField] private Rigidbody _rigidbody;
 
-        [SerializeField] private float _maxSpeed;
-        [SerializeField] private float _movementForce;
-        [SerializeField] private float _jumpForce;
-        [SerializeField] private float _groundDrag;
-        [SerializeField] private float _airDrag;
-        [SerializeField] private float _groundRaycastLength;
+        private float _maxSpeed;
+        private float _movementForce;
+        private float _jumpForce;
+        private float _groundDrag;
+        private float _airDrag;
         
-        private InputService _inputService;
-        private CharacterLookController _lookController;
+        private float _groundRaycastLength = 1.1f;
+        
+        private NetworkCharacterLookComponent _lookComponent;
 
         private Vector3 _moveDirection;
         private Transform _cameraTransform;
         private bool _isGrounded;
 
-        public void Initialize(InputService inputService, CharacterLookController lookController)
+        public void Setup(
+            float maxSpeed,
+            float movementForce,
+            float jumpForce,
+            float groundDrag,
+            float airDrag)
         {
-            _isOwnedCached = isOwned;
-            if (!_isOwnedCached)
-                return;
-                
-            _inputService = inputService;
-            _inputService.Move += Move;
-            _inputService.Jump += Jump;
-            _lookController = lookController;
-            _cameraTransform = _lookController.GetCameraTransform();
+            _maxSpeed = maxSpeed;
+            _movementForce = movementForce;
+            _jumpForce = jumpForce;
+            _groundDrag = groundDrag;
+            _airDrag = airDrag;
+        }
+
+        public void Initialize(NetworkCharacterLookComponent lookComponent)
+        {
+            _lookComponent = lookComponent;
+            _cameraTransform = _lookComponent.GetCameraTransform();
         }
         
         [Client]
-        private void Move(Vector2 moveDirection)
+        public void Move(Vector2 moveDirection)
         {
             _moveDirection = InputDirectionToCameraLookDirection(moveDirection);
             CmdPerformMove(_moveDirection);
         }
         
-        private void Jump()
+        public void Jump()
         {
             CmdPerformJump();
         }
@@ -96,15 +103,6 @@ namespace JoyWay.Game.Character
             Ray rayToGround = new Ray(transform.position, -transform.up);
             bool isGrounded = Physics.Raycast(rayToGround, _groundRaycastLength);
             return isGrounded;
-        }
-
-        private void OnDestroy()
-        {
-            if (_isOwnedCached)
-            {
-                _inputService.Move -= Move;
-                _inputService.Jump -= Jump;
-            }
         }
     }
 }

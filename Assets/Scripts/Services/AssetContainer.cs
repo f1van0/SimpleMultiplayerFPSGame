@@ -19,5 +19,8 @@ namespace JoyWay.Services
 
         public readonly LazyResource<CrosshairUI> CrosshairUI =
             new LazyResource<CrosshairUI>(Constants.CrosshairUI);
+
+        public readonly LazyResource<CharacterConfig> CharacterConfig =
+            new LazyResource<CharacterConfig>(Constants.CharacterConfig);
     }
 }

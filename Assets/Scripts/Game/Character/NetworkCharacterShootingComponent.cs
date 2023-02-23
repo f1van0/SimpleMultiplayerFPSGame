@@ -6,24 +6,20 @@ using UnityEngine.InputSystem;
 
 namespace JoyWay.Game.Character
 {
-    public class CharacterShootingController : AdvancedNetworkBehaviour
+    public class NetworkCharacterShootingComponent : NetworkBehaviour
     {
         [SerializeField] private Transform _handEndTransform;
         
-        private InputService _inputService;
-        private CharacterLookController _lookController;
+        private NetworkCharacterLookComponent _lookComponent;
         private ProjectileFactory _projectileFactory;
 
         private Vector3 _lookDirection;
 
-        public void Initialize(InputService inputService, CharacterLookController lookController, ProjectileFactory projectileFactory)
+        public void Initialize(NetworkCharacterLookComponent lookComponent, ProjectileFactory projectileFactory)
         {
-            _isOwnedCached = isOwned;
-            if (_isOwnedCached)
+            if (isOwned)
             {
-                _inputService = inputService;
-                _inputService.Fire += Fire;
-                _lookController = lookController;
+                _lookComponent = lookComponent;
             }
 
             if (isServer)
@@ -32,9 +28,9 @@ namespace JoyWay.Game.Character
             }
         }
 
-        private void Fire()
+        public void Fire()
         {
-            _lookDirection = _lookController.GetLookDirection();
+            _lookDirection = _lookComponent.GetLookDirection();
             CmdFire(_handEndTransform.position, _lookDirection);
         }
 
@@ -42,12 +38,6 @@ namespace JoyWay.Game.Character
         private void CmdFire(Vector3 position, Vector3 lookDirection)
         {
             _projectileFactory.CreateFireball(position, lookDirection);
-        }
-
-        private void OnDestroy()
-        {
-            if (_isOwnedCached)
-                _inputService.Fire -= Fire;
         }
     }
 }

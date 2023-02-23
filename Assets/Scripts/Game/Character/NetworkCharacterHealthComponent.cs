@@ -5,23 +5,28 @@ using UnityEngine;
 
 namespace JoyWay.Game.Character
 {
-    public class CharacterHealth : NetworkBehaviour
+    public class NetworkCharacterHealthComponent : NetworkBehaviour
     {
-        public Action<int> HealthChanged;
-        public Action<CharacterHealth> Died;
+        public event Action<int, int> HealthChanged;
+        public event Action<NetworkCharacterHealthComponent> Died;
 
-        [field: SerializeField] public int MaxHealth { get; private set; }
+        private int _maxHealth;
         
         [SyncVar(hook = nameof(SetHealth))]
         private int _health;
 
+        public int MaxHealth => _maxHealth;
+        public int Health => _health;
+
+        public void Setup(int maxHealth)
+        {
+            _maxHealth = maxHealth;
+            _health = maxHealth;
+        }
+        
         public void Initialize()
         {
-            if (!isServer)
-                return;
-            
-            _health = MaxHealth;
-            HealthChanged += x => CheckForDeath();
+            HealthChanged += (_, __) => CheckForDeath();
         }
         
         [Server]
@@ -41,7 +46,7 @@ namespace JoyWay.Game.Character
 
         void SetHealth(int oldHealth, int newHealth)
         {
-            HealthChanged?.Invoke(_health);
+            HealthChanged?.Invoke(_health, _maxHealth);
         }
     }
 }

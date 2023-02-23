@@ -34,7 +34,7 @@ namespace JoyWay.Infrastructure.Installers
         private void InstallMessagePipe()
         {
             var options = Container.BindMessagePipe( /* configure option */);
-            Container.BindMessageBroker<CharacterSpawnedEvent>(options);
+            Container.BindMessageBroker<NetworkCharacterSpawnedEvent>(options);
         }
 
         private void InstallServices()

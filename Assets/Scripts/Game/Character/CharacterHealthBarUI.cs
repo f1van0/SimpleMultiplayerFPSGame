@@ -7,18 +7,14 @@ namespace JoyWay.Game.Character
     {
         [SerializeField] private TMP_Text _healthLabel;
 
-        private int _maxHealth;
-        
-        public void Initialize(CharacterHealth characterHealth)
+        public void Initialize(int health, int maxHealth)
         {
-            _maxHealth = characterHealth.MaxHealth;
-            SetHealth(_maxHealth);
-            characterHealth.HealthChanged += SetHealth;
+            SetHealth(health, maxHealth);
         }
 
-        private void SetHealth(int health)
+        public void SetHealth(int health, int maxHealth)
         {
-            _healthLabel.text = $"{health}/{_maxHealth}";
+            _healthLabel.text = $"{health}/{maxHealth}";
         }
     }
 }

@@ -11,7 +11,7 @@ namespace JoyWay.Services
         [SerializeField] private CinemachineVirtualCamera _fpsCamera;
         [SerializeField] private Camera _camera;
 
-        public Action<Vector3> LookDirectionUpdated;
+        public event Action<Vector3> LookDirectionUpdated;
 
         [Inject]
         public void Construct(AdvancedNetworkManager networkManager)

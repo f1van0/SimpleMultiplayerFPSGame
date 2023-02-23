@@ -5,9 +5,9 @@ using UnityEngine;
 
 namespace JoyWay.Game.Character
 {
-    public class CharacterLookController : AdvancedNetworkBehaviour
+    public class NetworkCharacterLookComponent : NetworkBehaviour
     {
-        public Action<Vector3> LookDirectionChanged;
+        public event Action<Vector3> LookDirectionChanged;
 
         [SerializeField] private Transform _eyes;
         
@@ -18,20 +18,11 @@ namespace JoyWay.Game.Character
 
         public void Initialize(CameraService cameraService)
         {
-            //TODO: Divide into 2 parts:
-            //TODO: 1 part - localplayer who subscribe Action LookDirectionChanged from CameraService directly
-            //TODO: 2 part - remoteClients who subscribe on Action LookDirectionChanged from changing syncvar LookDirection
-
-            _isOwnedCached = isOwned;
-            if (!_isOwnedCached)
-                return;
-
             _cameraService = cameraService;
             _cameraService.SetFollowTarget(_eyes);
-            _cameraService.LookDirectionUpdated += UpdateLookDirection;
         }
 
-        private void UpdateLookDirection(Vector3 direction)
+        public void UpdateLookDirection(Vector3 direction)
         {
             LookDirectionChanged?.Invoke(direction);
             CmdChangeLookDirection(direction);
@@ -45,7 +36,7 @@ namespace JoyWay.Game.Character
 
         private void SetLookDirection(Vector3 oldLookDirection, Vector3 newLookDirection)
         {
-            if (!_isOwnedCached)
+            if (!isOwned)
                 LookDirectionChanged?.Invoke(newLookDirection);
         }
 
@@ -57,12 +48,6 @@ namespace JoyWay.Game.Character
         public Vector3 GetLookDirection()
         {
             return _cameraService.GetLookDirection();
-        }
-
-        private void OnDestroy()
-        {
-            if (_isOwnedCached)
-                _cameraService.LookDirectionUpdated -= UpdateLookDirection;
         }
     }
 }

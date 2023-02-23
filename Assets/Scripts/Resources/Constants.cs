@@ -7,5 +7,6 @@
         public const string CrosshairUI = "UI/CrosshairUI";
         public const string Character = "Game/Character";
         public const string Fireball = "Game/Fireball";
+        public const string CharacterConfig = "Game/CharacterConfig";
     }
 }
