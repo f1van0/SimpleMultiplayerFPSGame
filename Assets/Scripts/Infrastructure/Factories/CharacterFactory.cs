@@ -47,8 +47,6 @@ namespace JoyWay.Infrastructure.Factories
 
             characterContainer.InteractionComponent.Setup(characterConfig.MaxInteractionDistance);
 
-            characterContainer.ViewComponent.Setup(characterConfig.DisplayDamageTakenDelay, characterConfig.InterpolationTimeInterval);
-
             return characterContainer;
         }
 

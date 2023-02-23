@@ -7,11 +7,13 @@ namespace JoyWay.Game.Character
 {
     public class CharacterViewComponent : MonoBehaviour
     {
-        [SerializeField] private Transform _shouldersHeightTransform;
+        [SerializeField] private Transform _shouldersTransform;
         [SerializeField] private MeshRenderer _meshRenderer;
         
-        private float _displayDamageTakenDelay;
-        private float _interpolationTimeInterval;
+        //TODO: can be migrated into ScriptableObject but in my case I cant setup this variables in factory on client
+        [SerializeField] private float _displayDamageTakenDelay;
+        [SerializeField] private float _interpolationTimeInterval;
+        
         private float _timer;
         private Material _individualMaterial;
 
@@ -19,16 +21,10 @@ namespace JoyWay.Game.Character
         private Vector3 _newCharacterLookDirection;
         private Vector3 _flatLookDirection;
 
-        public void Setup(float displayDamageTakenDelay, float interpolationTimeInterval)
-        {
-            _newCharacterLookDirection = transform.forward;
-            _displayDamageTakenDelay = displayDamageTakenDelay;
-            _interpolationTimeInterval = interpolationTimeInterval;
-        }
-
         public void Initialize(bool isOwner)
         {
             _individualMaterial = _meshRenderer.material;
+            _newCharacterLookDirection = transform.forward;
 
             if (isOwner)
                 _interpolationTimeInterval = 0;
@@ -54,7 +50,7 @@ namespace JoyWay.Game.Character
             
             Vector3 flatLookDirection = new Vector3(_currentCharacterLookDirection.x, 0, _currentCharacterLookDirection.z);
             transform.forward = flatLookDirection;
-            _shouldersHeightTransform.forward = _currentCharacterLookDirection;
+            _shouldersTransform.forward = _currentCharacterLookDirection;
         }
 
         public void DisplayDamageTaken()

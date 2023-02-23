@@ -10,6 +10,7 @@ namespace JoyWay.Game.Character
         public event Action<int, int> HealthChanged;
         public event Action<NetworkCharacterHealthComponent> Died;
 
+        [SyncVar]
         private int _maxHealth;
         
         [SyncVar(hook = nameof(SetHealth))]

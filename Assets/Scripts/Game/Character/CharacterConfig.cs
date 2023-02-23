@@ -14,8 +14,5 @@ namespace JoyWay.Game.Character
         [field: SerializeField] public int AirDrag { get; private set; }
         
         [field: SerializeField] public float MaxInteractionDistance { get; private set; }
-        
-        [field: SerializeField] public float DisplayDamageTakenDelay { get; private set; }
-        [field: SerializeField] public float InterpolationTimeInterval { get; private set; }
     }
 }

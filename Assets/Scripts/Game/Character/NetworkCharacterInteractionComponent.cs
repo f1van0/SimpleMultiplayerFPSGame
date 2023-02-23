@@ -13,7 +13,8 @@ namespace JoyWay.Game.Character
         private InputService _inputService;
         private NetworkCharacterLookComponent _lookComponent;
         private float _maxInteractionDistance;
-        private Stone _stone;
+        
+        private PickableProjectile _objectInHand;
 
         public void Setup(float maxInteractionDistance)
         {
@@ -34,10 +35,10 @@ namespace JoyWay.Game.Character
         [Command]
         private void CmdHandleInteraction(Vector3 position, Vector3 direction)
         {
-            if (_stone != null && !_stone.CanPick)
+            if (_objectInHand != null)
             {
-                _stone.Throw(direction);
-                _stone = null;
+                _objectInHand.Throw(direction);
+                _objectInHand = null;
                 return;
             }
 
@@ -46,12 +47,12 @@ namespace JoyWay.Game.Character
             if (hitTransform == null)
                 return;
             
-            if (TryPickupStone(hitTransform, out var stone))
+            if (TryPickupObject(hitTransform, out var pickableObject))
             {
-                if (stone.CanPick)
+                if (pickableObject.CanPick)
                 {
-                    stone.Pickup(_handEndTransform);
-                    _stone = stone;
+                    pickableObject.Pickup(_handEndTransform);
+                    _objectInHand = pickableObject;
                 }
                 return;
             }
@@ -63,11 +64,11 @@ namespace JoyWay.Game.Character
         }
 
         [Server]
-        private bool TryPickupStone(Transform hitTransform, out Stone stone)
+        private bool TryPickupObject(Transform hitTransform, out PickableProjectile pickableProjectile)
         {
-            stone = null;
+            pickableProjectile = null;
             
-            if (hitTransform.TryGetComponent<Stone>(out stone))
+            if (hitTransform.TryGetComponent<PickableProjectile>(out pickableProjectile))
                 return true;
             else
                 return false;
