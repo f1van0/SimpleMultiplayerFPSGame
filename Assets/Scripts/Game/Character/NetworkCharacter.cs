@@ -1,10 +1,7 @@
-﻿using Cysharp.Threading.Tasks.Triggers;
-using JoyWay.Infrastructure;
-using JoyWay.Infrastructure.Factories;
+﻿using JoyWay.Infrastructure.Factories;
 using JoyWay.Services;
 using Mirror;
 using UnityEngine;
-using Zenject;
 
 namespace JoyWay.Game.Character
 {

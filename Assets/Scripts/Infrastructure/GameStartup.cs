@@ -1,8 +1,5 @@
-﻿using JoyWay.Infrastructure.Factories;
-using JoyWay.Resources;
+﻿using JoyWay.Resources;
 using JoyWay.Services;
-using MessagePipe;
-using UnityEngine;
 using Zenject;
 
 namespace JoyWay.Infrastructure

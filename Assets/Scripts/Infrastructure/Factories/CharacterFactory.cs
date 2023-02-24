@@ -1,12 +1,7 @@
-﻿using Cinemachine;
-using Cysharp.Threading.Tasks.Triggers;
-using JoyWay.Game.Character;
-using JoyWay.Resources;
+﻿using JoyWay.Game.Character;
 using JoyWay.Services;
-using MessagePipe;
 using Mirror;
 using UnityEngine;
-using Zenject;
 
 namespace JoyWay.Infrastructure.Factories
 {
