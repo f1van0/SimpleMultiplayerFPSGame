@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace JoyWay.Game
+namespace JoyWay.Game.Interactable
 {
     public class WorldButton : MonoBehaviour, IInteractable
     {

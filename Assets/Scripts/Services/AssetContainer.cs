@@ -9,18 +9,18 @@ namespace JoyWay.Services
     public class AssetContainer
     {
         public readonly LazyResource<CharacterContainer> Character =
-            new LazyResource<CharacterContainer>(Constants.Character);
+            new LazyResource<CharacterContainer>(ResourcesPath.Character);
 
         public readonly LazyResource<Projectile> Fireball =
-            new LazyResource<Projectile>(Constants.Fireball);
+            new LazyResource<Projectile>(ResourcesPath.Fireball);
 
         public readonly LazyResource<MainMenuUI> MainMenuUI =
-            new LazyResource<MainMenuUI>(Constants.MainMenuUI);
+            new LazyResource<MainMenuUI>(ResourcesPath.MainMenuUI);
 
         public readonly LazyResource<HideableUI> CrosshairUI =
-            new LazyResource<HideableUI>(Constants.CrosshairUI);
+            new LazyResource<HideableUI>(ResourcesPath.CrosshairUI);
 
         public readonly LazyResource<CharacterConfig> CharacterConfig =
-            new LazyResource<CharacterConfig>(Constants.CharacterConfig);
+            new LazyResource<CharacterConfig>(ResourcesPath.CharacterConfig);
     }
 }

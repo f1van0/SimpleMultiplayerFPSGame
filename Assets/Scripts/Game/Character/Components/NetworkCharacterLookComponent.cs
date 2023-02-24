@@ -3,7 +3,7 @@ using JoyWay.Services;
 using Mirror;
 using UnityEngine;
 
-namespace JoyWay.Game.Character
+namespace JoyWay.Game.Character.Components
 {
     public class NetworkCharacterLookComponent : NetworkBehaviour
     {

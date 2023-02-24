@@ -1,5 +1,4 @@
-﻿using JoyWay.Game.Character;
-using Mirror;
+﻿using Mirror;
 using UnityEngine;
 using UnityEngine.Animations;
 

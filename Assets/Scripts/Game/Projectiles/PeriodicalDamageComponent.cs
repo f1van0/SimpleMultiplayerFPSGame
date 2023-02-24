@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections;
-using JoyWay.Game.Character;
+﻿using System.Collections;
+using JoyWay.Game.Character.Components;
 using UnityEngine;
 
 namespace JoyWay.Game.Projectiles

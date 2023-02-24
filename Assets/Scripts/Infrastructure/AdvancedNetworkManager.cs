@@ -2,6 +2,7 @@ using System;
 using System.Net;
 using JoyWay.Game;
 using JoyWay.Game.Character;
+using JoyWay.Game.Character.Components;
 using JoyWay.Infrastructure.Factories;
 using kcp2k;
 using Mirror;

@@ -1,7 +1,7 @@
-﻿using JoyWay.Game.Character;
+﻿using JoyWay.Game.Character.Components;
 using UnityEngine;
 
-namespace JoyWay.Game.Projectiles
+namespace JoyWay.Game.HitEffects
 {
     [System.Serializable]
     public abstract class HitEffect : ScriptableObject

@@ -1,5 +1,5 @@
-﻿using System;
-using JoyWay.Game.Character;
+﻿using JoyWay.Game.Character.Components;
+using JoyWay.Game.HitEffects;
 using Mirror;
 using UnityEngine;
 

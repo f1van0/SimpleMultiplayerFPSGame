@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections;
-using JoyWay.Services;
+﻿using System.Collections;
 using UnityEngine;
 
-namespace JoyWay.Game.Character
+namespace JoyWay.Game.Character.Components
 {
     public class CharacterViewComponent : MonoBehaviour
     {

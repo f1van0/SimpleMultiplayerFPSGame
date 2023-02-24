@@ -1,9 +1,7 @@
 ﻿namespace JoyWay.Resources
 {
-    public static class Constants
+    public static class ResourcesPath
     {
-        public const string GameScene = "Game";
-        public const string SpawnPointTag = "SpawnPoint";
         public const string MainMenuUI = "UI/MainMenuUI";
         public const string CrosshairUI = "UI/CrosshairUI";
         public const string Character = "Game/Character";

@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using JoyWay.Resources;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace JoyWay.Game
 {

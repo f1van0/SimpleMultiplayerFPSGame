@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections;
-using Mirror;
+﻿using Mirror;
 using UnityEngine;
 
-namespace JoyWay.Game
+namespace JoyWay.Game.Interactable
 {
     public class LiftPlatform : NetworkBehaviour, IInteractable
     {

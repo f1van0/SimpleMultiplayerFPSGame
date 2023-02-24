@@ -1,10 +1,10 @@
-﻿using JoyWay.Game.Projectiles;
+﻿using JoyWay.Game.Interactable;
+using JoyWay.Game.Projectiles;
 using JoyWay.Services;
 using Mirror;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
-namespace JoyWay.Game.Character
+namespace JoyWay.Game.Character.Components
 {
     public class NetworkCharacterInteractionComponent : NetworkBehaviour
     {

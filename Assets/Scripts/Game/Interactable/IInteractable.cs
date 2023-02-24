@@ -1,6 +1,7 @@
-﻿using JoyWay.Game;
-
-public interface IInteractable
+﻿namespace JoyWay.Game.Interactable
 {
-    public void Interact();
+    public interface IInteractable
+    {
+        public void Interact();
+    }
 }

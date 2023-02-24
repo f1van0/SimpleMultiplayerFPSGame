@@ -1,9 +1,7 @@
 ﻿using System;
-using JoyWay.Infrastructure;
 using Mirror;
-using UnityEngine;
 
-namespace JoyWay.Game.Character
+namespace JoyWay.Game.Character.Components
 {
     public class NetworkCharacterHealthComponent : NetworkBehaviour
     {

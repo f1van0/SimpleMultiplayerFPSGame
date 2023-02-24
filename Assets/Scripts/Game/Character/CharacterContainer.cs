@@ -1,10 +1,5 @@
-﻿using System;
-using JoyWay.Infrastructure;
-using JoyWay.Infrastructure.Factories;
-using JoyWay.Services;
-using Mirror;
+﻿using JoyWay.Game.Character.Components;
 using UnityEngine;
-using Zenject;
 
 namespace JoyWay.Game.Character
 {

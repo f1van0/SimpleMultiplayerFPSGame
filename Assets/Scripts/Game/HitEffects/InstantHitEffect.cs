@@ -1,7 +1,7 @@
-﻿using JoyWay.Game.Character;
+﻿using JoyWay.Game.Character.Components;
 using UnityEngine;
 
-namespace JoyWay.Game.Projectiles
+namespace JoyWay.Game.HitEffects
 {
     [CreateAssetMenu(menuName = "HitEffects/InstantHit", fileName = "InstantHit", order = 0)]
     public class InstantHitEffect : HitEffect
