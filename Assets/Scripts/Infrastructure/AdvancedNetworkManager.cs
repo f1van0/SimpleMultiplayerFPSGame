@@ -1,9 +1,12 @@
 using System;
+using System.Net;
 using JoyWay.Game;
 using JoyWay.Game.Character;
 using JoyWay.Infrastructure.Factories;
+using kcp2k;
 using Mirror;
 using UnityEngine;
+using UnityEngine.Events;
 using Zenject;
 
 namespace JoyWay.Infrastructure
@@ -82,6 +85,21 @@ namespace JoyWay.Infrastructure
                 _levelSpawnPoints = FindObjectOfType<LevelSpawnPoints>();
 
             return _levelSpawnPoints.GetRandomSpawnPoint();
+        }
+
+        public void Connect(IPAddress ipAddress)
+        {
+            if (transport is KcpTransport kcpTransport == false)
+            {
+                throw new ArgumentException("Not supported transport");
+            }
+
+            UriBuilder builder = new UriBuilder();
+            var exampleUri = transport.ServerUri();
+            builder.Scheme = exampleUri.Scheme;
+            builder.Port = exampleUri.Port;
+            builder.Host = ipAddress.ToString();
+            StartClient(builder.Uri);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace JoyWay.UI
@@ -10,7 +11,8 @@ namespace JoyWay.UI
 
         [HideInInspector]
         public Button.ButtonClickedEvent HostButtonClicked;
-        
+
+        [SerializeField] private TMP_InputField _addressInputField;
         [SerializeField] private Button _hostButton;
         [SerializeField] private Button _connectButton;
 
@@ -18,6 +20,11 @@ namespace JoyWay.UI
         {
             ConnectButtonClicked = _connectButton.onClick;
             HostButtonClicked = _hostButton.onClick;
+        }
+
+        public string GetAddress()
+        {
+            return _addressInputField.text;
         }
     }
 }

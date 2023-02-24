@@ -1,50 +1,51 @@
-﻿using System;
-using JoyWay.Infrastructure;
-using JoyWay.UI;
+﻿using JoyWay.UI;
 using UnityEngine;
 using Zenject;
 
-public class GameFlow : MonoBehaviour
+namespace JoyWay.Infrastructure
 {
-    private AdvancedNetworkManager _networkManager;
-    private UIFactory _uiFactory;
-
-    private MainMenuController _mainMenu;
-    
-    private HideableUI _crosshairUI;
-
-    [Inject]
-    public void Construct(AdvancedNetworkManager networkManager, UIFactory uiFactory)
+    public class GameFlow : MonoBehaviour
     {
-        _networkManager = networkManager;
-        _uiFactory = uiFactory;
-    }
+        private AdvancedNetworkManager _networkManager;
+        private UIFactory _uiFactory;
 
-    public void StartGame()
-    {
-        _mainMenu = _uiFactory.CreateMainMenu();
-        _crosshairUI = _uiFactory.CreateCrosshairUI();
-        _networkManager.Connected += GoToGame;
-        _networkManager.Disconnected += GoToMenu;
-    }
+        private MainMenuController _mainMenu;
 
-    private void GoToMenu()
-    {
-        _mainMenu.Show();
-        _crosshairUI.Hide();
-    }
+        private HideableUI _crosshairUI;
 
-    private void GoToGame()
-    {
-        _mainMenu.Hide();
-        _crosshairUI.Show();
-    }
+        [Inject]
+        public void Construct(AdvancedNetworkManager networkManager, UIFactory uiFactory)
+        {
+            _networkManager = networkManager;
+            _uiFactory = uiFactory;
+        }
 
-    private void OnDestroy()
-    {
-        _networkManager.Connected -= _mainMenu.Hide;
-        _networkManager.Disconnected -= _mainMenu.Show;
-        _networkManager.Connected -= _crosshairUI.Show;
-        _networkManager.Disconnected -= _crosshairUI.Hide;
+        public void StartGame()
+        {
+            _mainMenu = _uiFactory.CreateMainMenu();
+            _crosshairUI = _uiFactory.CreateCrosshairUI();
+            _networkManager.Connected += GoToGame;
+            _networkManager.Disconnected += GoToMenu;
+        }
+
+        private void GoToMenu()
+        {
+            _mainMenu.Show();
+            _crosshairUI.Hide();
+        }
+
+        private void GoToGame()
+        {
+            _mainMenu.Hide();
+            _crosshairUI.Show();
+        }
+
+        private void OnDestroy()
+        {
+            _networkManager.Connected -= _mainMenu.Hide;
+            _networkManager.Disconnected -= _mainMenu.Show;
+            _networkManager.Connected -= _crosshairUI.Show;
+            _networkManager.Disconnected -= _crosshairUI.Hide;
+        }
     }
 }
