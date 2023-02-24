@@ -15,9 +15,9 @@ MonoBehaviour:
   <MaxHealth>k__BackingField: 100
   <MaxSpeed>k__BackingField: 7
   <MovementForce>k__BackingField: 35
-  <JumpForce>k__BackingField: 6
+  <JumpForce>k__BackingField: 7
   <GroundDrag>k__BackingField: 5
   <AirDrag>k__BackingField: 3
   <MaxInteractionDistance>k__BackingField: 2.5
-  <DisplayDamageTakenDelay>k__BackingField: 0.2
-  <InterpolationTimeInterval>k__BackingField: 0.3
+  <InterpolationTimeInterval>k__BackingField: 0.12
+  <DisplayDamageTakenDelay>k__BackingField: 0.25

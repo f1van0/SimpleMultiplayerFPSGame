@@ -1,13 +1,8 @@
 using System;
-using System.Linq;
-using Events.Game;
 using JoyWay.Game;
 using JoyWay.Game.Character;
 using JoyWay.Infrastructure.Factories;
-using JoyWay.Services;
-using MessagePipe;
 using Mirror;
-using Mirror.SimpleWeb;
 using UnityEngine;
 using Zenject;
 
@@ -22,15 +17,11 @@ namespace JoyWay.Infrastructure
         
         private LevelSpawnPoints _levelSpawnPoints;
         private CharacterFactory _characterFactory;
-        private IPublisher<NetworkCharacterSpawnedEvent> _publisher;
 
         [Inject]
-        public void Construct(
-            CharacterFactory characterFactory,
-            IPublisher<NetworkCharacterSpawnedEvent> characterSpawnedPublisher)
+        public void Construct(CharacterFactory characterFactory)
         {
             _characterFactory = characterFactory;
-            _publisher = characterSpawnedPublisher;
         }
         
         public override void Awake()
@@ -63,31 +54,26 @@ namespace JoyWay.Infrastructure
             Disconnected?.Invoke();
         }
 
-        public void NotifyCharacterWasSpawned(NetworkCharacter character)
+        private void RespawnCharacterOnServer(NetworkCharacterHealthComponent networkCharacterHealthComponent)
         {
-            _publisher.Publish(new NetworkCharacterSpawnedEvent(character));
-        }
-
-        private void RespawnCharacter(NetworkCharacterHealthComponent networkCharacterHealthComponent)
-        {
-            networkCharacterHealthComponent.Died -= RespawnCharacter;
+            networkCharacterHealthComponent.Died -= RespawnCharacterOnServer;
             var conn = networkCharacterHealthComponent.netIdentity.connectionToClient;
             NetworkServer.Destroy(networkCharacterHealthComponent.gameObject);
-            SpawnCharacter(conn);
+            SpawnCharacterOnServer(conn);
         }
 
-        private void SpawnCharacter(NetworkConnectionToClient conn)
+        private void SpawnCharacterOnServer(NetworkConnectionToClient conn)
         {
             Transform spawnPoint = GetRandomSpawnPoint();
-            var character = _characterFactory.CreateCharacter(spawnPoint, conn);
+            var character = _characterFactory.SpawnCharacterOnServer(spawnPoint, conn);
             var characterHealth = character.HealthComponent;
-            characterHealth.Died += RespawnCharacter;
+            characterHealth.Died += RespawnCharacterOnServer;
         }
 
         public override void OnServerAddPlayer(NetworkConnectionToClient conn)
         {
             base.OnServerAddPlayer(conn);
-            SpawnCharacter(conn);
+            SpawnCharacterOnServer(conn);
         }
 
         private Transform GetRandomSpawnPoint()

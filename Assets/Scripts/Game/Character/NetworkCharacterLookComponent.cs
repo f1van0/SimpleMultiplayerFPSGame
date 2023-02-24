@@ -9,17 +9,22 @@ namespace JoyWay.Game.Character
     {
         public event Action<Vector3> LookDirectionChanged;
 
-        [SerializeField] private float _interpolationTimeInterval;
         [SerializeField] private Transform _eyes;
-        
+
         [SyncVar(hook = nameof(SetLookDirection))]
         private Vector3 _lookDirection;
-
+        
         private CameraService _cameraService;
 
         private Vector3 _newLookDirection;
         private Vector3 _currentLookDirection;
+        private float _interpolationTimeInterval;
         private float _timer;
+
+        public void Setup(float interpolationTimeInterval)
+        {
+            _interpolationTimeInterval = interpolationTimeInterval;
+        }
 
         public void Initialize(CameraService cameraService)
         {

@@ -17,15 +17,8 @@ namespace JoyWay.Game.Character
 
         public void Initialize(NetworkCharacterLookComponent lookComponent, ProjectileFactory projectileFactory)
         {
-            if (isOwned)
-            {
-                _lookComponent = lookComponent;
-            }
-
-            if (isServer)
-            {
-                _projectileFactory = projectileFactory;
-            }
+            _lookComponent = lookComponent;
+            _projectileFactory = projectileFactory;
         }
 
         public void Fire()

@@ -1,5 +1,4 @@
-﻿using Events.Game;
-using JoyWay.Infrastructure.Factories;
+﻿using JoyWay.Infrastructure.Factories;
 using JoyWay.Resources;
 using JoyWay.Services;
 using MessagePipe;

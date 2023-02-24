@@ -9,14 +9,17 @@ namespace JoyWay.Game.Character
     {
         [SerializeField] private Transform _shouldersHeightTransform;
         [SerializeField] private MeshRenderer _meshRenderer;
-        
-        //TODO: can be migrated into ScriptableObject but in my case I cant setup this variables in factory on client
-        [SerializeField] private float _displayDamageTakenDelay;
 
         private Material _individualMaterial;
         private Vector3 _flatLookDirection;
+        private float _displayDamageTakenDelay;
 
-        public void Initialize(bool isOwner)
+        public void Setup(float displayDamageTakenDelay)
+        {
+            _displayDamageTakenDelay = displayDamageTakenDelay;
+        }
+        
+        public void Initialize()
         {
             _individualMaterial = _meshRenderer.material;
         }

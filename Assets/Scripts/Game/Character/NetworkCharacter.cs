@@ -14,23 +14,25 @@ namespace JoyWay.Game.Character
         private CameraService _cameraService;
         private InputService _inputService;
 
-        private bool _isOwned;
+        private bool _isOwner;
         
-        [Inject]
-        public void Construct(
+        public void Initialize(
+            bool isOwner,
+            bool isHost,
             InputService inputService,
             CameraService cameraService,
             ProjectileFactory projectileFactory)
         {
+            _isOwner = isOwner;
             _inputService = inputService;
             _cameraService = cameraService;
             
-            if (isServer)
+            if (isHost)
             {
                 _container.HealthComponent.Initialize();
             }
 
-            if (isOwned)
+            if (_isOwner)
             {
                 _inputService.Move += _container.MovementComponent.Move;
                 _inputService.Jump += _container.MovementComponent.Jump;
@@ -48,19 +50,13 @@ namespace JoyWay.Game.Character
             _container.HealthComponent.HealthChanged += _container.HealthBarUI.SetHealth;
             
             _container.ShootingComponent.Initialize(_container.LookComponent, projectileFactory);
-            _container.ViewComponent.Initialize(isOwned);
+            _container.ViewComponent.Initialize();
             _container.HealthBarUI.Initialize(_container.HealthComponent.Health, _container.HealthComponent.MaxHealth);
-        }
-        
-        private void Start()
-        {
-            _isOwned = isOwned;
-            AdvancedNetworkManager.singleton.NotifyCharacterWasSpawned(this);
         }
 
         private void OnDestroy()
         {
-            if (_isOwned)
+            if (_isOwner)
             {
                 _cameraService.LookDirectionUpdated -= _container.LookComponent.UpdateLookDirection;
                 _inputService.Fire -= _container.ShootingComponent.Fire; // something wrong with unsubscribe, because after respawn character cant attack

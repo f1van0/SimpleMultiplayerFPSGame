@@ -1,9 +1,5 @@
-using Events.Game;
 using JoyWay.Infrastructure.Factories;
-using JoyWay.Resources;
 using JoyWay.Services;
-using JoyWay.UI;
-using MessagePipe;
 using UnityEngine;
 using Zenject;
 
@@ -18,7 +14,6 @@ namespace JoyWay.Infrastructure.Installers
         {
             InstallServices();
             InstallFactories();
-            InstallMessagePipe();
 
             Container.Bind<AdvancedNetworkManager>()
                 .FromComponentInNewPrefab(_networkManagerPrefab)
@@ -34,12 +29,6 @@ namespace JoyWay.Infrastructure.Installers
                 .FromNewComponentOnNewGameObject()
                 .AsSingle()
                 .NonLazy();
-        }
-
-        private void InstallMessagePipe()
-        {
-            var options = Container.BindMessagePipe( /* configure option */);
-            Container.BindMessageBroker<NetworkCharacterSpawnedEvent>(options);
         }
 
         private void InstallServices()
