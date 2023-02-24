@@ -16,7 +16,7 @@ public class UIFactory
     
     public MainMenuController CreateMainMenu()
     {
-        MainMenuUI mainMenu = Object.Instantiate(_assetContainer.MainMenu.Value);
+        MainMenuUI mainMenu = Object.Instantiate(_assetContainer.MainMenuUI.Value);
         return new MainMenuController(mainMenu, _networkManager);
     }
 

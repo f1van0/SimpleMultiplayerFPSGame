@@ -1,8 +1,11 @@
+using System.Numerics;
 using JoyWay.Services;
 using Mirror;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Vector2 = UnityEngine.Vector2;
+using Vector3 = UnityEngine.Vector3;
 
 namespace JoyWay.Game.Character
 {
@@ -16,7 +19,7 @@ namespace JoyWay.Game.Character
         private float _groundDrag;
         private float _airDrag;
         
-        private float _groundRaycastLength = 1.1f;
+        private float _groundRaycastLength = 0.2f;
         
         private NetworkCharacterLookComponent _lookComponent;
 
@@ -100,7 +103,7 @@ namespace JoyWay.Game.Character
 
         private bool CheckGrounded()
         {
-            Ray rayToGround = new Ray(transform.position, -transform.up);
+            Ray rayToGround = new Ray(transform.position + Vector3.up * _groundRaycastLength / 2, -transform.up);
             bool isGrounded = Physics.Raycast(rayToGround, _groundRaycastLength);
             return isGrounded;
         }
