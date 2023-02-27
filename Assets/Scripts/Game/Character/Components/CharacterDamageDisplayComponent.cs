@@ -3,13 +3,11 @@ using UnityEngine;
 
 namespace JoyWay.Game.Character.Components
 {
-    public class CharacterViewComponent : MonoBehaviour
+    public class CharacterDamageDisplayComponent : MonoBehaviour
     {
-        [SerializeField] private Transform _shouldersHeightTransform;
         [SerializeField] private MeshRenderer _meshRenderer;
 
         private Material _individualMaterial;
-        private Vector3 _flatLookDirection;
         private float _displayDamageTakenDelay;
 
         public void Setup(float displayDamageTakenDelay)
@@ -20,13 +18,6 @@ namespace JoyWay.Game.Character.Components
         public void Initialize()
         {
             _individualMaterial = _meshRenderer.material;
-        }
-
-        public void ChangeLookDirection(Vector3 lookDirection)
-        {
-            Vector3 flatLookDirection = new Vector3(lookDirection.x, 0, lookDirection.z);
-            transform.forward = flatLookDirection;
-            _shouldersHeightTransform.forward = lookDirection;
         }
 
         public void DisplayDamageTaken()

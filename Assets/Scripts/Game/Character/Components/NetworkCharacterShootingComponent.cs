@@ -1,4 +1,5 @@
 ﻿using JoyWay.Infrastructure.Factories;
+using JoyWay.Services;
 using Mirror;
 using UnityEngine;
 
@@ -8,21 +9,20 @@ namespace JoyWay.Game.Character.Components
     {
         [SerializeField] private Transform _handEndTransform;
         
-        private NetworkCharacterLookComponent _lookComponent;
         private ProjectileFactory _projectileFactory;
 
+        private Transform _cameraTransform;
         private Vector3 _lookDirection;
 
-        public void Initialize(NetworkCharacterLookComponent lookComponent, ProjectileFactory projectileFactory)
+        public void Initialize(CameraService cameraService, ProjectileFactory projectileFactory)
         {
-            _lookComponent = lookComponent;
+            _cameraTransform = cameraService.GetCameraTransform();
             _projectileFactory = projectileFactory;
         }
 
         public void Fire()
         {
-            _lookDirection = _lookComponent.GetLookDirection();
-            CmdFire(_handEndTransform.position, _lookDirection);
+            CmdFire(_handEndTransform.position, _cameraTransform.forward);
         }
 
         [Command]

@@ -11,7 +11,8 @@ namespace JoyWay.Game.Character
         [field: SerializeField] public NetworkCharacterShootingComponent ShootingComponent { get; private set; }
         [field: SerializeField] public NetworkCharacterInteractionComponent InteractionComponent { get; private set; }
         [field: SerializeField] public NetworkCharacterLookComponent LookComponent { get; private set; }
-        [field: SerializeField] public CharacterViewComponent ViewComponent { get; private set; }
+        [field: SerializeField] public CharacterDamageDisplayComponent DamageDisplayComponent { get; private set; }
+        [field: SerializeField] public CharacterRotationComponent RotationComponent { get; private set; }
         [field: SerializeField] public CharacterHealthBarUI HealthBarUI { get; private set; }
     }
 }

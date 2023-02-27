@@ -67,15 +67,5 @@ namespace JoyWay.Game.Character.Components
 
             LookDirectionChanged?.Invoke(_currentLookDirection);
         }
-
-        public Transform GetCameraTransform()
-        {
-            return _cameraService.GetCameraTransform();
-        }
-
-        public Vector3 GetLookDirection()
-        {
-            return _cameraService.GetLookDirection();
-        }
     }
 }

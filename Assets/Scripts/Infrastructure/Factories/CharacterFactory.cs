@@ -55,7 +55,7 @@ namespace JoyWay.Infrastructure.Factories
             characterContainer.HealthComponent.Setup(characterConfig.MaxHealth);
             characterContainer.InteractionComponent.Setup(characterConfig.MaxInteractionDistance);
             characterContainer.LookComponent.Setup(characterConfig.InterpolationTimeInterval);
-            characterContainer.ViewComponent.Setup(characterConfig.DisplayDamageTakenDelay);
+            characterContainer.DamageDisplayComponent.Setup(characterConfig.DisplayDamageTakenDelay);
             characterContainer.NetworkCharacter.Initialize(isOwner, isHost, _inputSrevice, _cameraService, _projectileFactory);
 
             characterContainer.MovementComponent.Setup(

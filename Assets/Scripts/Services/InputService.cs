@@ -17,13 +17,17 @@ namespace JoyWay.Services
 
         private Vector2 _moveDirection;
 
+        private void OnInteract(InputAction.CallbackContext x) => Interact?.Invoke();
+        private void OnFire(InputAction.CallbackContext x) => Fire?.Invoke();
+        private void OnJump(InputAction.CallbackContext x) => Jump?.Invoke();
+        
         [Inject]
         public void Construct()
         {
             _playerInputs = new PlayerInputs();
-            _playerInputs.Character.Jump.performed += x => Jump?.Invoke();
-            _playerInputs.Character.Fire.performed += x => Fire?.Invoke();
-            _playerInputs.Character.Interact.performed += x => Interact?.Invoke();
+            _playerInputs.Character.Jump.performed += OnJump;
+            _playerInputs.Character.Fire.performed += OnFire;
+            _playerInputs.Character.Interact.performed += OnInteract;
             _playerInputs.Enable();
         }
 
@@ -31,6 +35,13 @@ namespace JoyWay.Services
         {
             _moveDirection = _playerInputs.Character.Move.ReadValue<Vector2>();
             Move?.Invoke(_moveDirection);
+        }
+
+        private void OnDestroy()
+        {
+            _playerInputs.Character.Jump.performed -= OnJump;
+            _playerInputs.Character.Fire.performed -= OnFire;
+            _playerInputs.Character.Interact.performed -= OnInteract;
         }
     }
 }

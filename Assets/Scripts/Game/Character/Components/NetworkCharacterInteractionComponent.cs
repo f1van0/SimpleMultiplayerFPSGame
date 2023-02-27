@@ -11,7 +11,7 @@ namespace JoyWay.Game.Character.Components
         [SerializeField] private Transform _handEndTransform;
         
         private InputService _inputService;
-        private NetworkCharacterLookComponent _lookComponent;
+        private Transform _cameraTransform;
         private float _maxInteractionDistance;
         
         private PickableProjectile _objectInHand;
@@ -21,15 +21,14 @@ namespace JoyWay.Game.Character.Components
             _maxInteractionDistance = maxInteractionDistance;
         }
         
-        public void Initialize(NetworkCharacterLookComponent lookComponent)
+        public void Initialize(CameraService cameraService)
         {
-            _lookComponent = lookComponent;
+            _cameraTransform = cameraService.GetCameraTransform();
         }
         
         public void Interact()
         {
-            Transform cameraTransform = _lookComponent.GetCameraTransform();
-            CmdHandleInteraction(cameraTransform.position, cameraTransform.forward);
+            CmdHandleInteraction(_cameraTransform.position, _cameraTransform.forward);
         }
 
         [Command]

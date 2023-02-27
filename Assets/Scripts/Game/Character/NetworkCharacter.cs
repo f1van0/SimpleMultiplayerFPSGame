@@ -38,16 +38,16 @@ namespace JoyWay.Game.Character
                 _cameraService.LookDirectionUpdated += _container.LookComponent.UpdateLookDirection;
                 
                 _container.LookComponent.Initialize(_cameraService);
-                _container.MovementComponent.Initialize(_container.LookComponent);
-                _container.InteractionComponent.Initialize(_container.LookComponent);
+                _container.MovementComponent.Initialize(_container.RotationComponent);
+                _container.InteractionComponent.Initialize(_cameraService);
             }
             
-            _container.LookComponent.LookDirectionChanged += _container.ViewComponent.ChangeLookDirection;
-            _container.HealthComponent.HealthChanged += (_, __) => _container.ViewComponent.DisplayDamageTaken();
+            _container.LookComponent.LookDirectionChanged += _container.RotationComponent.ChangeLookDirection;
+            _container.HealthComponent.HealthChanged += (_, __) => _container.DamageDisplayComponent.DisplayDamageTaken();
             _container.HealthComponent.HealthChanged += _container.HealthBarUI.SetHealth;
             
-            _container.ShootingComponent.Initialize(_container.LookComponent, projectileFactory);
-            _container.ViewComponent.Initialize();
+            _container.ShootingComponent.Initialize(_cameraService, projectileFactory);
+            _container.DamageDisplayComponent.Initialize();
             _container.HealthBarUI.Initialize(_container.HealthComponent.Health, _container.HealthComponent.MaxHealth);
         }
 
@@ -62,7 +62,7 @@ namespace JoyWay.Game.Character
                 _inputService.Interact -= _container.InteractionComponent.Interact;
             }
             
-            _container.LookComponent.LookDirectionChanged -= _container.ViewComponent.ChangeLookDirection;
+            _container.LookComponent.LookDirectionChanged -= _container.RotationComponent.ChangeLookDirection;
             _container.HealthComponent.HealthChanged -= _container.HealthBarUI.SetHealth;
         }
     }
