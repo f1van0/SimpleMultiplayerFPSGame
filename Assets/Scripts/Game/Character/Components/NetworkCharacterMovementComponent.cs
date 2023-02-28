@@ -37,9 +37,12 @@ namespace JoyWay.Game.Character.Components
         }
         
         [Client]
-        public void Move(Vector2 moveDirection)
+        public void Move(Vector2 direction)
         {
-            _moveDirection = InputDirectionToCameraLookDirection(moveDirection);
+            if (direction == Vector2.zero)
+                return;
+            
+            _moveDirection = InputDirectionToCameraLookDirection(direction);
             CmdPerformMove(_moveDirection);
         }
         
