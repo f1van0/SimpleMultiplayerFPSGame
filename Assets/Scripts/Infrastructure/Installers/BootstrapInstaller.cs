@@ -8,14 +8,14 @@ namespace JoyWay.Infrastructure.Installers
     public class BootstrapInstaller : MonoInstaller<BootstrapInstaller>
     {
         [SerializeField] private CameraService _cameraService;
-        [SerializeField] private AdvancedNetworkManager _networkManagerPrefab;
+        [SerializeField] private RealtimeNetworkManager _networkManagerPrefab;
         
         public override void InstallBindings()
         {
             InstallServices();
             InstallFactories();
 
-            Container.Bind<AdvancedNetworkManager>()
+            Container.Bind<RealtimeNetworkManager>()
                 .FromComponentInNewPrefab(_networkManagerPrefab)
                 .AsSingle()
                 .NonLazy();
