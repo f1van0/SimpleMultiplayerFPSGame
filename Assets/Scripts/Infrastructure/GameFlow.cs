@@ -1,4 +1,5 @@
-﻿using JoyWay.UI;
+﻿using JoyWay.Services;
+using JoyWay.UI;
 using UnityEngine;
 using Zenject;
 
@@ -6,22 +7,25 @@ namespace JoyWay.Infrastructure
 {
     public class GameFlow : MonoBehaviour
     {
-        private AdvancedNetworkManager _networkManager;
+        private RealtimeNetworkManager _networkManager;
         private UIFactory _uiFactory;
+        private InputService _inputService;
 
         private MainMenuController _mainMenu;
 
         private HideableUI _crosshairUI;
 
         [Inject]
-        public void Construct(AdvancedNetworkManager networkManager, UIFactory uiFactory)
+        public void Construct(RealtimeNetworkManager networkManager, UIFactory uiFactory, InputService inputService)
         {
             _networkManager = networkManager;
             _uiFactory = uiFactory;
+            _inputService = inputService;
         }
 
         public void StartGame()
         {
+            _inputService.Quit += _networkManager.Disconnect;
             _mainMenu = _uiFactory.CreateMainMenu();
             _crosshairUI = _uiFactory.CreateCrosshairUI();
             _networkManager.Connected += GoToGame;
