@@ -10,14 +10,14 @@ namespace JoyWay.Game.Projectiles
         private int _numberOfTimes;
         private float _applyingEffectDelay;
         private Coroutine _coroutine;
-        private NetworkCharacterHealthComponent _characterHealthComponent;
+        private CharacterHealthRealtimeComponent _characterHealthComponent;
 
         public void StopEffect()
         {
             StopCoroutine(_coroutine);
         }
 
-        public void Apply(NetworkCharacterHealthComponent networkCharacterHealthComponent, int periodicDamage, int numberOfTimes, float applingEffectDelay)
+        public void Apply(CharacterHealthRealtimeComponent networkCharacterHealthComponent, int periodicDamage, int numberOfTimes, float applingEffectDelay)
         {
             _characterHealthComponent = networkCharacterHealthComponent;
             _applyingEffectDelay = applingEffectDelay;

@@ -74,5 +74,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cameraService: {fileID: 8469121199906497787, guid: 9893efcf535b386489e581bb4b2cd68e, type: 3}
-  _networkManagerPrefab: {fileID: 4850277626718043897, guid: 6ebd8d53351e99e489a57d0b2d30ccf4, type: 3}
-  _sceneLoaderPrefab: {fileID: 10318428102207436, guid: 13ce044557add5a469f2bebc8d3144ad, type: 3}
+  _networkManagerPrefab: {fileID: 7402267930186497968, guid: 791f4ffb6692afd4cb5e3e07c37738b5, type: 3}
