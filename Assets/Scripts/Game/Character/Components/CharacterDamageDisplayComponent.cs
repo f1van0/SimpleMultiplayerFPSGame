@@ -8,7 +8,7 @@ namespace JoyWay.Game.Character.Components
         [SerializeField] private MeshRenderer _meshRenderer;
 
         private Material _individualMaterial;
-        private float _displayDamageTakenDelay;
+        private float _displayDamageTakenDelay = 0.2f;
 
         public void Setup(float displayDamageTakenDelay)
         {
