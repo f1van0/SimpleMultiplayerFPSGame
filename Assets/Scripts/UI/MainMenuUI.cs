@@ -7,22 +7,17 @@ namespace JoyWay.UI
     public class MainMenuUI : HideableUI
     {
         [HideInInspector]
-        public Button.ButtonClickedEvent ConnectButtonClicked;
-
-        [HideInInspector]
-        public Button.ButtonClickedEvent HostButtonClicked;
+        public Button.ButtonClickedEvent JoinButtonClicked;
 
         [SerializeField] private TMP_InputField _addressInputField;
-        [SerializeField] private Button _hostButton;
-        [SerializeField] private Button _connectButton;
+        [SerializeField] private Button _joinButton;
 
         private void Awake()
         {
-            ConnectButtonClicked = _connectButton.onClick;
-            HostButtonClicked = _hostButton.onClick;
+            JoinButtonClicked = _joinButton.onClick;
         }
 
-        public string GetAddress()
+        public string GetRoomName()
         {
             return _addressInputField.text;
         }

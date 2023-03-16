@@ -8,21 +8,19 @@ namespace JoyWay.UI
     public class MainMenuController
     {
         private readonly MainMenuUI _mainMenuUI;
-        private AdvancedNetworkManager _networkManager;
+        private RealtimeNetworkManager _networkManager;
 
-        public MainMenuController(MainMenuUI mainMenuUI, AdvancedNetworkManager networkManager)
+        public MainMenuController(MainMenuUI mainMenuUI, RealtimeNetworkManager networkManager)
         {
             _networkManager = networkManager;
             _mainMenuUI = mainMenuUI;
 
-            _mainMenuUI.HostButtonClicked.AddListener(networkManager.StartHost);
-            _mainMenuUI.ConnectButtonClicked.AddListener(Connect);
-            
+            _mainMenuUI.JoinButtonClicked.AddListener(Join);
         }
 
-        private void Connect()
+        private void Join()
         {
-            _networkManager.Connect(GetAddress());
+            _networkManager.JoinRoom(_mainMenuUI.GetRoomName());
         }
 
         public void Show()
@@ -33,20 +31,6 @@ namespace JoyWay.UI
         public void Hide()
         {
             _mainMenuUI.Hide();
-        }
-
-        public IPAddress GetAddress()
-        {
-            var ipString = _mainMenuUI.GetAddress();
-            
-            if (IPAddress.TryParse(ipString, out var ipAddress))
-            {
-                return ipAddress;
-            }
-            else
-            {
-                return IPAddress.Loopback;
-            }
         }
     }
 }
