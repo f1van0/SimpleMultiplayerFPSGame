@@ -14,7 +14,7 @@ namespace JoyWay.Services
         public event Action<Vector3> LookDirectionUpdated;
 
         [Inject]
-        public void Construct(AdvancedNetworkManager networkManager)
+        public void Construct(RealtimeNetworkManager networkManager)
         {
             networkManager.Connected += EnableFpsCamera;
             networkManager.Disconnected += DisableFpsCamera;

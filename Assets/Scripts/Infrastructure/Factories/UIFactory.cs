@@ -1,4 +1,5 @@
-﻿using JoyWay.Infrastructure;
+﻿using JoyWay;
+using JoyWay.Infrastructure;
 using JoyWay.Services;
 using JoyWay.UI;
 using UnityEngine;
@@ -6,9 +7,9 @@ using UnityEngine;
 public class UIFactory
 {
     private readonly AssetContainer _assetContainer;
-    private readonly AdvancedNetworkManager _networkManager;
+    private readonly RealtimeNetworkManager _networkManager;
 
-    public UIFactory(AssetContainer assetContainer, AdvancedNetworkManager networkManager)
+    public UIFactory(AssetContainer assetContainer, RealtimeNetworkManager networkManager)
     {
         _assetContainer = assetContainer;
         _networkManager = networkManager;

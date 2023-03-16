@@ -1,6 +1,8 @@
 ﻿using JoyWay.Game.Character;
+using JoyWay.Resources;
 using JoyWay.Services;
 using Mirror;
+using Normal.Realtime;
 using UnityEngine;
 
 namespace JoyWay.Infrastructure.Factories
@@ -22,41 +24,27 @@ namespace JoyWay.Infrastructure.Factories
             _inputSrevice = inputService;
             _cameraService = cameraService;
             _projectileFactory = projectileFactory;
-            NetworkClient.RegisterPrefab(_assetContainer.Character.Value.gameObject, SpawnCharacterOnClient, UnspawnCharacterOnClient);
         }
 
-        public CharacterContainer SpawnCharacterOnServer(Transform at, NetworkConnectionToClient conn)
+        public CharacterContainer CreateCharacter(Transform at, Realtime realtime)
         {
-            bool isOwner = conn.identity.isOwned;
-            var characterContainer = CreateCharacter(at.position, at.rotation, isOwner, true);
-            NetworkServer.Spawn(characterContainer.gameObject, conn);
-            return characterContainer;
-        }
-
-        private GameObject SpawnCharacterOnClient(SpawnMessage msg)
-        {
-            var characterContainer = CreateCharacter(msg.position, msg.rotation, msg.isOwner, false);
-            return characterContainer.gameObject;
-        }
-
-
-        private void UnspawnCharacterOnClient(GameObject spawned)
-        {
-            Object.Destroy(spawned);
-        }
-
-        private CharacterContainer CreateCharacter(Vector3 position, Quaternion rotation, bool isOwner, bool isHost)
-        {
-            CharacterContainer characterContainer = 
-                Object.Instantiate(_assetContainer.Character.Value, position, rotation);
+            var options = new Realtime.InstantiateOptions {
+                ownedByClient            = true,
+                preventOwnershipTakeover = true,
+                destroyWhenOwnerLeaves   = true,
+                useInstance              = realtime
+            };
+            
+            GameObject character = Realtime.Instantiate(ResourcesPath.Character, options);
+            character.transform.position = at.position;
+            CharacterContainer characterContainer = character.GetComponent<CharacterContainer>();
 
             CharacterConfig characterConfig = _assetContainer.CharacterConfig.Value;
             
             characterContainer.HealthComponent.Setup(characterConfig.MaxHealth);
             characterContainer.InteractionComponent.Setup(characterConfig.MaxInteractionDistance);
-            characterContainer.LookComponent.Setup(characterConfig.InterpolationTimeInterval);
             characterContainer.DamageDisplayComponent.Setup(characterConfig.DisplayDamageTakenDelay);
-            characterContainer.NetworkCharacter.Initialize(isOwner, isHost, _inputSrevice, _cameraService, _projectileFactory);
+            characterContainer.NetworkCharacter.Initialize(_inputSrevice, _cameraService, _projectileFactory);
 
             characterContainer.MovementComponent.Setup(
                 characterConfig.MaxSpeed,
