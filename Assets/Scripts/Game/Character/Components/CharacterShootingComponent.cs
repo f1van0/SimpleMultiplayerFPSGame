@@ -1,34 +1,32 @@
 ﻿using JoyWay.Infrastructure.Factories;
 using JoyWay.Services;
 using Mirror;
+using Normal.Realtime;
 using UnityEngine;
 
 namespace JoyWay.Game.Character.Components
 {
-    public class NetworkCharacterShootingComponent : NetworkBehaviour
+    public class CharacterShootingComponent : MonoBehaviour
     {
         [SerializeField] private Transform _handEndTransform;
-        
+
         private ProjectileFactory _projectileFactory;
+        private RealtimeView _realtimeView;
 
         private Transform _cameraTransform;
         private Vector3 _lookDirection;
 
-        public void Initialize(CameraService cameraService, ProjectileFactory projectileFactory)
+        public void Initialize(CameraService cameraService, ProjectileFactory projectileFactory, RealtimeView realtimeView)
         {
             _cameraTransform = cameraService.GetCameraTransform();
             _projectileFactory = projectileFactory;
+            _realtimeView = realtimeView;
         }
 
         public void Fire()
         {
-            CmdFire(_handEndTransform.position, _cameraTransform.forward);
-        }
-
-        [Command]
-        private void CmdFire(Vector3 position, Vector3 lookDirection)
-        {
-            _projectileFactory.CreateFireball(position, lookDirection, netIdentity.netId);
+            _projectileFactory
+                .CreateFireball(_handEndTransform.position, _cameraTransform.forward, _realtimeView.ownerIDSelf);
         }
     }
 }

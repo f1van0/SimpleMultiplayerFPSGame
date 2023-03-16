@@ -12,6 +12,7 @@ namespace JoyWay.Services
         public event Action Jump;
         public event Action Fire;
         public event Action Interact;
+        public event Action Quit;
 
         private PlayerInputs _playerInputs;
 
@@ -20,6 +21,7 @@ namespace JoyWay.Services
         private void OnInteract(InputAction.CallbackContext x) => Interact?.Invoke();
         private void OnFire(InputAction.CallbackContext x) => Fire?.Invoke();
         private void OnJump(InputAction.CallbackContext x) => Jump?.Invoke();
+        private void OnQuit(InputAction.CallbackContext x) => Quit?.Invoke();
         
         [Inject]
         public void Construct()
@@ -28,6 +30,8 @@ namespace JoyWay.Services
             _playerInputs.Character.Jump.performed += OnJump;
             _playerInputs.Character.Fire.performed += OnFire;
             _playerInputs.Character.Interact.performed += OnInteract;
+            _playerInputs.Character.Quit.performed += OnQuit;
+            
             _playerInputs.Enable();
         }
 
@@ -42,6 +46,7 @@ namespace JoyWay.Services
             _playerInputs.Character.Jump.performed -= OnJump;
             _playerInputs.Character.Fire.performed -= OnFire;
             _playerInputs.Character.Interact.performed -= OnInteract;
+            _playerInputs.Character.Quit.performed -= OnQuit;
         }
     }
 }

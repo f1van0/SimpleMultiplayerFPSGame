@@ -2,11 +2,12 @@
 using JoyWay.Game.Projectiles;
 using JoyWay.Services;
 using Mirror;
+using Normal.Realtime;
 using UnityEngine;
 
 namespace JoyWay.Game.Character.Components
 {
-    public class NetworkCharacterInteractionComponent : NetworkBehaviour
+    public class CharacterInteractionComponent : MonoBehaviour
     {
         [SerializeField] private Transform _handEndTransform;
         
@@ -15,28 +16,27 @@ namespace JoyWay.Game.Character.Components
         private float _maxInteractionDistance;
         
         private PickableProjectile _objectInHand;
+        private RealtimeView _realtimeView;
 
         public void Setup(float maxInteractionDistance)
         {
             _maxInteractionDistance = maxInteractionDistance;
         }
         
-        public void Initialize(CameraService cameraService)
+        public void Initialize(CameraService cameraService, RealtimeView realtimeView)
         {
             _cameraTransform = cameraService.GetCameraTransform();
+            _realtimeView = realtimeView;
         }
         
         public void Interact()
         {
-            CmdHandleInteraction(_cameraTransform.position, _cameraTransform.forward);
-        }
-
-        [Command]
-        private void CmdHandleInteraction(Vector3 position, Vector3 direction)
-        {
+            Vector3 position = _cameraTransform.position;
+            Vector3 direction = _cameraTransform.forward;
+            
             if (_objectInHand != null)
             {
-                _objectInHand.Throw(direction, netIdentity.netId);
+                _objectInHand.Throw(direction);
                 _objectInHand = null;
                 return;
             }
@@ -62,7 +62,6 @@ namespace JoyWay.Game.Character.Components
             }
         }
 
-        [Server]
         private bool TryPickupObject(Transform hitTransform, out PickableProjectile pickableProjectile)
         {
             pickableProjectile = null;
@@ -73,7 +72,6 @@ namespace JoyWay.Game.Character.Components
                 return false;
         }
 
-        [Server]
         public bool TryGetInteractiveObject(Transform hitTransform, out IInteractable interactableObject)
         {
             interactableObject = null;
@@ -84,7 +82,6 @@ namespace JoyWay.Game.Character.Components
                 return false;
         }
         
-        [Server]
         private Transform GetRaycastHitTransform(Vector3 position, Vector3 direction)
         {
             Ray ray = new Ray(position, direction);

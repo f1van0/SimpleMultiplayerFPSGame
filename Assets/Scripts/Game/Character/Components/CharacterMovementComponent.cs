@@ -1,13 +1,15 @@
 using JoyWay.Services;
 using Mirror;
+using Normal.Realtime;
 using UnityEngine;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
 namespace JoyWay.Game.Character.Components
 {
-    public class NetworkCharacterMovementComponent : NetworkBehaviour
+    public class CharacterMovementComponent : MonoBehaviour
     {
+        [SerializeField] private RealtimeTransform _realtimeTransform;
         [SerializeField] private Rigidbody _rigidbody;
 
         private float _maxSpeed;
@@ -31,36 +33,25 @@ namespace JoyWay.Game.Character.Components
             _airDrag = airDrag;
         }
 
-        public void Initialize(CharacterRotationComponent characterRotationComponent)
+        public void Initialize(CharacterLookComponent lookComponent)
         {
-            _bodyTransform = characterRotationComponent.GetBodyTransform();
+            _bodyTransform = lookComponent.GetBodyTransform();
+            _realtimeTransform.RequestOwnership();
         }
         
-        [Client]
         public void Move(Vector2 direction)
         {
             if (direction == Vector2.zero)
                 return;
             
             _moveDirection = InputDirectionToCameraLookDirection(direction);
-            CmdPerformMove(_moveDirection);
+            
+            ApplyDrag();
+            _rigidbody.AddForce(_moveDirection * _movementForce, ForceMode.Force);
+            ClampMovement();
         }
         
         public void Jump()
-        {
-            CmdPerformJump();
-        }
-
-        [Command]
-        private void CmdPerformMove(Vector3 direction)
-        {
-            ApplyDrag();
-            _rigidbody.AddForce(direction * _movementForce, ForceMode.Force);
-            ClampMovement();
-        }
-
-        [Command]
-        private void CmdPerformJump()
         {
             if (!CheckGrounded())
                 return;
@@ -70,7 +61,6 @@ namespace JoyWay.Game.Character.Components
             _rigidbody.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
         }
 
-        [Server]
         private void ApplyDrag()
         {
             if (CheckGrounded())
@@ -79,7 +69,6 @@ namespace JoyWay.Game.Character.Components
                 _rigidbody.drag = _airDrag;
         }
 
-        [Server]
         private void ClampMovement()
         {
             var flatVelocity = GetFlatVelocity();
