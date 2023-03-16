@@ -11,7 +11,7 @@ namespace JoyWay.Game.HitEffects
         [SerializeField] private int _numberOfTimes;
         [SerializeField] private int _periodicDamage;
         
-        public override void ApplyEffect(NetworkCharacterHealthComponent characterHealthComponent)
+        public override void ApplyEffect(CharacterHealthRealtimeComponent characterHealthComponent)
         {
             base.ApplyEffect(characterHealthComponent);
             

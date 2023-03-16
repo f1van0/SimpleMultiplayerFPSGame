@@ -8,7 +8,7 @@ namespace JoyWay.Game.HitEffects
     {
         [SerializeField] private int _damage;
         
-        public override void ApplyEffect(NetworkCharacterHealthComponent characterHealthComponent)
+        public override void ApplyEffect(CharacterHealthRealtimeComponent characterHealthComponent)
         {
             characterHealthComponent.ApplyDamage(_damage);
         }

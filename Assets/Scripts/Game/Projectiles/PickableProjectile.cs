@@ -1,4 +1,5 @@
 ﻿using Mirror;
+using Normal.Realtime;
 using UnityEngine;
 using UnityEngine.Animations;
 
@@ -12,17 +13,18 @@ namespace JoyWay.Game.Projectiles
 
         public bool CanPick => !_isInHand;
         
-        [Server]
         public void Pickup(Transform hand)
         {
+            _realtimeView.RequestOwnership();
+            _realtimeView.preventOwnershipTakeover = true;
+            _realtimeTransform.RequestOwnership();
             PutInHand(hand);
         }
 
-        [Server]
-        public override void Throw(Vector3 direction, uint sender)
+        public override void Throw(Vector3 direction)
         {
             ReleaseFromHand(); 
-            base.Throw(direction, sender);
+            base.Throw(direction);
         }
 
         private void PutInHand(Transform hand)

@@ -6,6 +6,6 @@ namespace JoyWay.Game.HitEffects
     [System.Serializable]
     public abstract class HitEffect : ScriptableObject
     {
-        public abstract void ApplyEffect(NetworkCharacterHealthComponent characterHealthComponent);
+        public abstract void ApplyEffect(CharacterHealthRealtimeComponent characterHealthComponent);
     }
 }

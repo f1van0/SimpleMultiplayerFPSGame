@@ -2,6 +2,7 @@
 using JoyWay.Resources;
 using JoyWay.Services;
 using Mirror;
+using Normal.Realtime;
 using UnityEngine;
 
 namespace JoyWay.Infrastructure.Factories
@@ -9,18 +10,27 @@ namespace JoyWay.Infrastructure.Factories
     public class ProjectileFactory
     {
         private AssetContainer _assetContainer;
-        
-        public ProjectileFactory(AssetContainer assetContainer)
+        private RealtimeNetworkManager _networkManager;
+
+        public ProjectileFactory(AssetContainer assetContainer, RealtimeNetworkManager networkManager)
         {
             _assetContainer = assetContainer;
+            _networkManager = networkManager;
         }
         
-        public Projectile CreateFireball(Vector3 at, Vector3 direction, uint sender)
+        public Projectile CreateFireball(Vector3 at, Vector3 direction, int sender)
         {
-            Projectile fireball = Object.Instantiate(_assetContainer.Fireball.Value, at, Quaternion.identity);
-            NetworkServer.Spawn(fireball.gameObject);
-            fireball.Throw(direction, sender);
-            return fireball;
+            var options = new Realtime.InstantiateOptions {
+                ownedByClient            = true,
+                preventOwnershipTakeover = true,
+                useInstance              = _networkManager.Realtime
+            };
+            
+            GameObject fireball = Realtime.Instantiate(ResourcesPath.Fireball, options);
+            fireball.transform.position = at;
+            Projectile projectile = fireball.GetComponent<Projectile>();
+            projectile.Throw(direction);
+            return projectile;
         }
     }
 }
