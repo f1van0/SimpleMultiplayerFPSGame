@@ -1239,6 +1239,14 @@ PrefabInstance:
       propertyPath: _maintainOwnershipWhileSleeping
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5975318483454469905, guid: 9550d743bd15c714b929fecad9c9746e, type: 3}
+      propertyPath: _realtime
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5975318483454469905, guid: 9550d743bd15c714b929fecad9c9746e, type: 3}
+      propertyPath: _viewUUID
+      value: b0438fd2-d886-4f01-8261-af85de7df72e
+      objectReference: {fileID: 0}
     - target: {fileID: 5978301145285726764, guid: 9550d743bd15c714b929fecad9c9746e, type: 3}
       propertyPath: sceneId
       value: 3699807426
@@ -1253,7 +1261,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8725378015628812801, guid: 9550d743bd15c714b929fecad9c9746e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.12
       objectReference: {fileID: 0}
     - target: {fileID: 8725378015628812801, guid: 9550d743bd15c714b929fecad9c9746e, type: 3}
       propertyPath: m_LocalPosition.z

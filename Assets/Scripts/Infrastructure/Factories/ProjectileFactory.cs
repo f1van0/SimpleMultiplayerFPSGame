@@ -1,7 +1,6 @@
 ﻿using JoyWay.Game.Projectiles;
 using JoyWay.Resources;
 using JoyWay.Services;
-using Mirror;
 using Normal.Realtime;
 using UnityEngine;
 
@@ -22,7 +21,7 @@ namespace JoyWay.Infrastructure.Factories
         {
             var options = new Realtime.InstantiateOptions {
                 ownedByClient            = true,
-                preventOwnershipTakeover = true,
+                preventOwnershipTakeover = false,
                 useInstance              = _networkManager.Realtime
             };
             

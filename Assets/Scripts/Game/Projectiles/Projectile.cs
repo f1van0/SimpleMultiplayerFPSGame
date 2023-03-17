@@ -1,6 +1,5 @@
 ﻿using JoyWay.Game.Character.Components;
 using JoyWay.Game.HitEffects;
-using Mirror;
 using Normal.Realtime;
 using UnityEngine;
 
@@ -25,6 +24,7 @@ namespace JoyWay.Game.Projectiles
 
         private void OnTriggerEnter(Collider other)
         {
+
             if (other.gameObject.TryGetComponent<CharacterHealthRealtimeComponent>(out var characterHealth))
             {
                 RealtimeView receiverRealtimeView = characterHealth.GetComponent<RealtimeView>();

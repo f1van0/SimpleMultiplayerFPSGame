@@ -1,6 +1,4 @@
-﻿using Mirror;
-using Normal.Realtime;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Animations;
 
 namespace JoyWay.Game.Projectiles
@@ -29,8 +27,6 @@ namespace JoyWay.Game.Projectiles
 
         private void PutInHand(Transform hand)
         {
-            _rigidbody.isKinematic = true;
-            _collider.isTrigger = false;
             _isInHand = true;
             ConstraintSource newConstraintSource = new ConstraintSource();
             newConstraintSource.sourceTransform = hand;
@@ -42,7 +38,6 @@ namespace JoyWay.Game.Projectiles
         private void ReleaseFromHand()
         {
             _rigidbody.isKinematic = false;
-            _collider.isTrigger = true;
             _isInHand = false;
             if (_parentConstraint.sourceCount > 0)
             {
