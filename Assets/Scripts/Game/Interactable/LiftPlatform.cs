@@ -1,35 +1,42 @@
-﻿using Mirror;
+﻿using Normal.Realtime;
 using UnityEngine;
 
 namespace JoyWay.Game.Interactable
 {
-    public class LiftPlatform : NetworkBehaviour, IInteractable
+    public class LiftPlatform : RealtimeComponent<LiftModel>, IInteractable
     {
-        [SerializeField] private float _liftingTime;
-        [SerializeField] private Transform _platform;
+        [SerializeField] private RealtimeTransform _platformRealtimeTransform;
+        [SerializeField] private RealtimeView _realtimeView;
+        [SerializeField] private Rigidbody _platformRigidBody;
         [SerializeField] private Transform _bottom;
         [SerializeField] private Transform _top;
         
-        private bool _isRaised;
-        private float _timeInterval;
+        private float _timeInterval = 1;
+        private float _timer;
 
         private Vector3 _startPosition;
         private Vector3 _endPosition;
-
-        private bool _isLifting => _timeInterval < _liftingTime;
-
-        private void Awake()
+        
+        protected override void OnRealtimeModelReplaced(LiftModel previousModel, LiftModel currentModel)
         {
-            _isRaised = false;
-            _timeInterval = _liftingTime;
+            if (model.isFreshModel)
+            {
+                model.isLifting = false;
+                model.isRaised = false;
+            }
+
+            model.isLifting = currentModel.isLifting;
+            model.isRaised = currentModel.isRaised;
         }
 
-        [Server]
         public void Interact()
         {
-            if (!_isLifting)
+            if (!model.isLifting)
             {
-                if (_isRaised)
+                _realtimeView.RequestOwnership();
+                _platformRealtimeTransform.RequestOwnership();
+
+                if (model.isRaised)
                 {
                     _startPosition = _top.position;
                     _endPosition = _bottom.position;
@@ -39,24 +46,30 @@ namespace JoyWay.Game.Interactable
                     _startPosition = _bottom.position;
                     _endPosition = _top.position;
                 }
-                
-                _isRaised = !_isRaised;
-                _timeInterval = 0;
+
+                _timer = 0;
+                model.isRaised = !model.isRaised;
+                model.isLifting = true;
             }
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             Lift();
         }
 
         private void Lift()
         {
-            if (_isLifting)
-            {
-                _timeInterval += Time.deltaTime / _liftingTime;
-                _platform.transform.position = Vector3.Lerp(_startPosition, _endPosition, _timeInterval);
-            }
+            if (model == null || !model.isLifting)
+                return;
+            
+            var delta = Vector3.Lerp(_startPosition, _endPosition, _timer / _timeInterval);
+            _platformRigidBody.MovePosition(delta);
+            
+            _timer += Time.fixedDeltaTime;
+
+            if (_timer >= _timeInterval)
+                model.isLifting = false;
         }
     }
 }
