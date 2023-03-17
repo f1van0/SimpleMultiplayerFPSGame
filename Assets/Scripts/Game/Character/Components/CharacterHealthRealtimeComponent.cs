@@ -1,7 +1,5 @@
 ﻿using System;
-using Mirror;
 using Normal.Realtime;
-using UnityEngine;
 
 namespace JoyWay.Game.Character.Components
 {

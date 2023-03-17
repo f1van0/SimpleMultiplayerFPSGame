@@ -1,5 +1,3 @@
-using JoyWay.Services;
-using Mirror;
 using Normal.Realtime;
 using UnityEngine;
 using Vector2 = UnityEngine.Vector2;

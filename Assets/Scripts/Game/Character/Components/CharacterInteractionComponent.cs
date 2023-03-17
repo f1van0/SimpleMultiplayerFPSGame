@@ -1,7 +1,6 @@
 ﻿using JoyWay.Game.Interactable;
 using JoyWay.Game.Projectiles;
 using JoyWay.Services;
-using Mirror;
 using Normal.Realtime;
 using UnityEngine;
 
